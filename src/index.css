@@ -8,6 +8,16 @@
   --color-mangrove-mint: #F4FFF4;
   --color-mangrove-muted: #6B7280;
 
+  --color-primary: #16A34A;
+  --color-primary-dark: #0B6B34;
+  --color-deep: #052E2B;
+  --color-bg: #F8FBF8;
+  --color-bg-soft: #F4FFF4;
+  --color-card: #FFFFFF;
+  --color-text: #0F172A;
+  --color-muted: #64748B;
+  --color-border: #EEF2F7;
+
   --font-sans: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
 }
 
