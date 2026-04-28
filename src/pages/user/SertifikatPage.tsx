@@ -162,7 +162,7 @@ export default function SertifikatPage() {
   return (
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
-      <div className="ml-0 lg:ml-60">
+      <div className="ml-0 lg:ml-56">
         <DashboardTopbar placeholder="Cari sertifikat..." userName="Andi" userRole="Kontributor" />
         <main className="p-4 lg:p-6">
           <div className="mb-6">
@@ -226,7 +226,7 @@ export default function SertifikatPage() {
           </Card>
 
           {/* All certificates */}
-          <h3 className="font-bold text-mangrove-deep mb-4">Semua Sertifikat</h3>
+          <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Semua Sertifikat</h3>
           <div className="grid grid-cols-2 gap-4">
             {certificates.map((cert) => (
               <Card key={cert.id} className="flex items-start gap-4">

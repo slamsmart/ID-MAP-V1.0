@@ -71,7 +71,7 @@ export default function ProgramSayaPage() {
   return (
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
-      <div className="ml-0 lg:ml-60">
+      <div className="ml-0 lg:ml-56">
         <DashboardTopbar placeholder="Cari program..." userName="Andi" userRole="Kontributor" />
         <main className="p-4 lg:p-6">
           <div className="mb-6">
@@ -154,7 +154,7 @@ export default function ProgramSayaPage() {
 
           {/* Timeline */}
           <Card>
-            <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-mangrove-fresh" /> Riwayat Aktivitas Program
             </h3>
             <div className="space-y-4">

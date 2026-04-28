@@ -120,35 +120,35 @@ export default function IDMAPAdminDashboard() {
       <DashboardSidebar variant="admin" menuItems={menuItems} />
       <GenerateQRISModal isOpen={showQRIS} onClose={() => setShowQRIS(false)} />
 
-      <div className="ml-0 lg:ml-60">
+      <div className="ml-0 lg:ml-56">
         <DashboardTopbar userName="Admin ID-MAP" userRole="Administrator" />
 
         <main className="p-4 lg:p-6">
           {/* Top action bar */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-5">
-            <h1 className="text-xl lg:text-2xl font-bold text-mangrove-deep">Dashboard Admin</h1>
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4">
+            <h1 className="text-lg lg:text-xl font-bold text-mangrove-deep">Dashboard Admin</h1>
+            <div className="flex items-center gap-1.5">
               <Button variant="ghost" size="sm" onClick={() => { setExportDone(false); setShowExportData(true); }}>
-                <Download className="w-4 h-4" /> Export
+                <Download className="w-3.5 h-3.5" /> Export
               </Button>
               <Button variant="neon" size="sm" onClick={() => setShowQRIS(true)}>
-                <QrCode className="w-4 h-4" /> Generate QRIS
+                <QrCode className="w-3.5 h-3.5" /> Generate QRIS
               </Button>
             </div>
           </div>
 
           {/* Tab nav */}
-          <div className="flex gap-1.5 mb-6 bg-white rounded-xl p-1 border border-gray-100 w-full sm:w-fit overflow-x-auto">
+          <div className="flex gap-1 mb-5 bg-gray-50 rounded-lg p-0.5 border border-gray-100/60 w-full sm:w-fit overflow-x-auto">
             {[
-              { key: 'overview' as const, label: 'Ringkasan', icon: <LayoutDashboard className="w-4 h-4" /> },
-              { key: 'projects' as const, label: 'Cek Proyek', icon: <Search className="w-4 h-4" /> },
-              { key: 'verification' as const, label: 'Verifikasi', icon: <ClipboardCheck className="w-4 h-4" /> },
+              { key: 'overview' as const, label: 'Ringkasan', icon: <LayoutDashboard className="w-3.5 h-3.5" /> },
+              { key: 'projects' as const, label: 'Cek Proyek', icon: <Search className="w-3.5 h-3.5" /> },
+              { key: 'verification' as const, label: 'Verifikasi', icon: <ClipboardCheck className="w-3.5 h-3.5" /> },
             ].map((t) => (
               <button
                 key={t.key}
                 onClick={() => setTab(t.key)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  tab === t.key ? 'bg-mangrove-neon text-mangrove-deep' : 'text-mangrove-muted hover:bg-gray-50'
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                  tab === t.key ? 'bg-white text-mangrove-deep shadow-sm' : 'text-gray-400 hover:text-gray-600'
                 }`}
               >
                 {t.icon} {t.label}
@@ -170,7 +170,7 @@ export default function IDMAPAdminDashboard() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
                 <Card className="col-span-1 lg:col-span-5">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="font-bold text-mangrove-deep">Tren Kontribusi (QRIS)</h3>
+                    <h3 className="text-sm font-semibold text-mangrove-deep">Tren Kontribusi (QRIS)</h3>
                     <select className="text-xs bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-mangrove-muted">
                       <option>Tahun Ini</option>
                     </select>
@@ -196,7 +196,7 @@ export default function IDMAPAdminDashboard() {
                 </Card>
 
                 <Card className="col-span-1 lg:col-span-3">
-                  <h3 className="font-bold text-mangrove-deep mb-4">Kontribusi per Sumber</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Kontribusi per Sumber</h3>
                   <ResponsiveContainer width="100%" height={240}>
                     <PieChart>
                       <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} dataKey="value">
@@ -213,7 +213,7 @@ export default function IDMAPAdminDashboard() {
                 </Card>
 
                 <Card className="col-span-1 lg:col-span-4">
-                  <h3 className="font-bold text-mangrove-deep mb-6">Aktivitas Terbaru</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-6">Aktivitas Terbaru</h3>
                   <div className="space-y-5">
                     {activities.map((a, i) => (
                       <div key={i} className="flex gap-3">
@@ -233,7 +233,7 @@ export default function IDMAPAdminDashboard() {
 
               {/* Programs Table */}
               <Card>
-                <h3 className="font-bold text-mangrove-deep mb-4">Program Aktif</h3>
+                <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Program Aktif</h3>
                 <Table headers={['Program', 'Lokasi', 'Bibit Ditanam', 'Dana Terkumpul', 'Progress', 'Aksi']}>
                   {programs.map((p) => (
                     <tr key={p.name} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
@@ -265,7 +265,7 @@ export default function IDMAPAdminDashboard() {
               {/* Project list with details */}
               <Card className="mb-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="font-bold text-mangrove-deep">Daftar Proyek & Status Verifikasi</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep">Daftar Proyek & Status Verifikasi</h3>
                   <div className="flex gap-2">
                     <input
                       type="text"
@@ -302,7 +302,7 @@ export default function IDMAPAdminDashboard() {
               {/* Project detail panels */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card>
-                  <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
                     <CheckCircle2 className="w-5 h-5 text-mangrove-fresh" /> Ringkasan Verifikasi
                   </h3>
                   <div className="space-y-3">
@@ -326,7 +326,7 @@ export default function IDMAPAdminDashboard() {
                 </Card>
 
                 <Card>
-                  <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
                     <BarChart3 className="w-5 h-5 text-mangrove-fresh" /> Kinerja per Lokasi
                   </h3>
                   <div className="space-y-3">
@@ -348,7 +348,7 @@ export default function IDMAPAdminDashboard() {
                 </Card>
 
                 <Card>
-                  <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
                     <AlertCircle className="w-5 h-5 text-amber-500" /> Perlu Tindakan
                   </h3>
                   <div className="space-y-3">
@@ -382,7 +382,7 @@ export default function IDMAPAdminDashboard() {
 
               {/* Verification queue */}
               <Card className="mb-6">
-                <h3 className="font-bold text-mangrove-deep mb-6">Antrian Verifikasi Lapangan</h3>
+                <h3 className="text-sm font-semibold text-mangrove-deep mb-6">Antrian Verifikasi Lapangan</h3>
                 <Table headers={['ID', 'Proyek', 'Tipe', 'Tanggal Submit', 'Petugas', 'Foto', 'Status', 'Aksi']}>
                   {verificationQueue.map((v) => (
                     <tr key={v.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
@@ -407,7 +407,7 @@ export default function IDMAPAdminDashboard() {
               {/* Verification detail view */}
               <div className="grid grid-cols-2 gap-6">
                 <Card>
-                  <h3 className="font-bold text-mangrove-deep mb-4">Detail Verifikasi — Desa Timbulsloko</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Detail Verifikasi — Desa Timbulsloko</h3>
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     {[
                       { label: 'Koordinat GPS', value: '-6.8975, 110.6383', icon: <MapPin className="w-4 h-4" /> },
@@ -432,7 +432,7 @@ export default function IDMAPAdminDashboard() {
                 </Card>
 
                 <Card>
-                  <h3 className="font-bold text-mangrove-deep mb-4">Foto Bukti Lapangan</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Foto Bukti Lapangan</h3>
                   <div className="grid grid-cols-2 gap-3">
                     {[1, 2, 3, 4].map((n) => (
                       <div key={n} className="h-32 bg-gradient-to-br from-mangrove-deep to-mangrove-teal rounded-xl flex items-center justify-center relative overflow-hidden">
@@ -451,7 +451,7 @@ export default function IDMAPAdminDashboard() {
           <Card className="mt-8">
             <div className="flex items-center gap-2 mb-4">
               <Shield className="w-5 h-5 text-mangrove-fresh" />
-              <h3 className="font-bold text-mangrove-deep">Akses Cepat</h3>
+              <h3 className="text-sm font-semibold text-mangrove-deep">Akses Cepat</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <button
@@ -492,7 +492,7 @@ export default function IDMAPAdminDashboard() {
           <Card className="mt-8">
             <div className="flex items-center gap-2 mb-4">
               <KeyRound className="w-5 h-5 text-mangrove-fresh" />
-              <h3 className="font-bold text-mangrove-deep">Manajemen Role</h3>
+              <h3 className="text-sm font-semibold text-mangrove-deep">Manajemen Role</h3>
             </div>
             <div className="space-y-3">
               {roleData.map((role) => (
@@ -521,7 +521,7 @@ export default function IDMAPAdminDashboard() {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <Users className="w-5 h-5 text-mangrove-fresh" />
-                  <h3 className="font-bold text-mangrove-deep">Pengguna Terdaftar (Convex)</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep">Pengguna Terdaftar (Convex)</h3>
                 </div>
                 <span className="text-xs font-bold text-mangrove-fresh bg-mangrove-mint px-2.5 py-1 rounded-full">{convexUsers.length} pengguna</span>
               </div>
@@ -620,7 +620,7 @@ export default function IDMAPAdminDashboard() {
                   <div className="w-16 h-16 bg-mangrove-fresh/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle2 className="w-8 h-8 text-mangrove-fresh" />
                   </div>
-                  <h3 className="font-bold text-mangrove-deep text-lg mb-2">Program Ditambahkan!</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep text-lg mb-2">Program Ditambahkan!</h3>
                   <p className="text-sm text-mangrove-muted mb-4">Program baru berhasil ditambahkan ke sistem.</p>
                   <Button variant="ghost" size="sm" onClick={() => setShowTambahProgram(false)}>Tutup</Button>
                 </div>
@@ -668,7 +668,7 @@ export default function IDMAPAdminDashboard() {
                   <div className="w-16 h-16 bg-mangrove-fresh/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle2 className="w-8 h-8 text-mangrove-fresh" />
                   </div>
-                  <h3 className="font-bold text-mangrove-deep text-lg mb-2">Undangan Terkirim!</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep text-lg mb-2">Undangan Terkirim!</h3>
                   <p className="text-sm text-mangrove-muted mb-4">Email undangan telah dikirim ke verifikator.</p>
                   <Button variant="ghost" size="sm" onClick={() => setShowUndangVerifikator(false)}>Tutup</Button>
                 </div>
@@ -728,7 +728,7 @@ export default function IDMAPAdminDashboard() {
                   <div className="w-16 h-16 bg-mangrove-fresh/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle2 className="w-8 h-8 text-mangrove-fresh" />
                   </div>
-                  <h3 className="font-bold text-mangrove-deep text-lg mb-2">Export Berhasil!</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep text-lg mb-2">Export Berhasil!</h3>
                   <p className="text-sm text-mangrove-muted mb-4">File telah siap diunduh.</p>
                   <Button variant="ghost" size="sm" onClick={() => setShowExportData(false)}>Tutup</Button>
                 </div>
@@ -819,7 +819,7 @@ export default function IDMAPAdminDashboard() {
                   <div className="w-16 h-16 bg-mangrove-fresh/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle2 className="w-8 h-8 text-mangrove-fresh" />
                   </div>
-                  <h3 className="font-bold text-mangrove-deep text-lg mb-2">Sertifikat Diterbitkan!</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep text-lg mb-2">Sertifikat Diterbitkan!</h3>
                   <p className="text-sm text-mangrove-muted mb-4">Sertifikat baru telah berhasil diterbitkan.</p>
                   <Button variant="ghost" size="sm" onClick={() => setShowTerbitkanBaru(false)}>Tutup</Button>
                 </div>

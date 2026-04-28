@@ -66,7 +66,7 @@ export default function NotifikasiPage() {
   return (
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
-      <div className="ml-0 lg:ml-60">
+      <div className="ml-0 lg:ml-56">
         <DashboardTopbar placeholder="Cari notifikasi..." userName="Andi" userRole="Kontributor" />
         <main className="p-4 lg:p-6">
           <div className="flex items-center justify-between mb-6">

@@ -42,7 +42,7 @@ function ContributionForm() {
         <div className="w-16 h-16 bg-mangrove-fresh/10 rounded-full flex items-center justify-center mx-auto mb-4">
           <CheckCircle2 className="w-8 h-8 text-mangrove-fresh" />
         </div>
-        <h3 className="font-bold text-mangrove-deep text-lg mb-2">Terima Kasih!</h3>
+        <h3 className="text-sm font-semibold text-mangrove-deep text-lg mb-2">Terima Kasih!</h3>
         <p className="text-sm text-mangrove-muted mb-4">Kontribusi Anda sebesar Rp {amount || '0'} telah diterima.</p>
         <Button variant="ghost" size="sm" onClick={() => { setSubmitted(false); setAmount(''); }}>Donasi Lagi</Button>
       </div>
@@ -120,7 +120,7 @@ function FieldReportForm() {
         <div className="w-16 h-16 bg-mangrove-fresh/10 rounded-full flex items-center justify-center mx-auto mb-4">
           <CheckCircle2 className="w-8 h-8 text-mangrove-fresh" />
         </div>
-        <h3 className="font-bold text-mangrove-deep text-lg mb-2">Laporan Terkirim!</h3>
+        <h3 className="text-sm font-semibold text-mangrove-deep text-lg mb-2">Laporan Terkirim!</h3>
         <p className="text-sm text-mangrove-muted mb-4">Laporan lapangan Anda telah diterima dan akan diverifikasi.</p>
         <Button variant="ghost" size="sm" onClick={() => setReportSubmitted(false)}>Kirim Laporan Baru</Button>
       </div>
@@ -202,7 +202,7 @@ function ProfileForm() {
           <User className="w-7 h-7 text-mangrove-neon" />
         </div>
         <div>
-          <h3 className="font-bold text-mangrove-deep">Andi Pratama</h3>
+          <h3 className="text-sm font-semibold text-mangrove-deep">Andi Pratama</h3>
           <p className="text-xs text-mangrove-muted">Kontributor sejak April 2024</p>
         </div>
       </div>
@@ -263,31 +263,31 @@ export default function IDMAPUserDashboard() {
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
 
-      <div className="ml-0 lg:ml-60">
+      <div className="ml-0 lg:ml-56">
         <DashboardTopbar placeholder="Cari..." userName="Andi" userRole="Kontributor" />
 
         <main className="p-4 lg:p-6">
           {/* Greeting */}
-          <div className="mb-5">
-            <h1 className="text-xl lg:text-2xl font-bold text-mangrove-deep">Halo, Andi 👋</h1>
-            <p className="text-sm text-mangrove-muted mt-1">Terima kasih telah berkontribusi untuk pesisir Indonesia!</p>
+          <div className="mb-4">
+            <h1 className="text-lg lg:text-xl font-bold text-mangrove-deep">Halo, Andi 👋</h1>
+            <p className="text-xs text-gray-400 mt-0.5">Terima kasih telah berkontribusi untuk pesisir Indonesia!</p>
           </div>
 
           {/* Tab navigation */}
-          <div className="flex gap-1.5 mb-6 bg-white rounded-xl p-1 border border-gray-100 w-full sm:w-fit overflow-x-auto">
+          <div className="flex gap-1 mb-5 bg-gray-50 rounded-lg p-0.5 border border-gray-100/60 w-full sm:w-fit overflow-x-auto">
             {[
-              { key: 'overview' as const, label: 'Ringkasan', icon: <Home className="w-4 h-4" /> },
-              { key: 'contribute' as const, label: 'Donasi Baru', icon: <DollarSign className="w-4 h-4" /> },
-              { key: 'report' as const, label: 'Laporan Lapangan', icon: <TreePine className="w-4 h-4" /> },
-              { key: 'profile' as const, label: 'Profil', icon: <User className="w-4 h-4" /> },
+              { key: 'overview' as const, label: 'Ringkasan', icon: <Home className="w-3.5 h-3.5" /> },
+              { key: 'contribute' as const, label: 'Donasi Baru', icon: <DollarSign className="w-3.5 h-3.5" /> },
+              { key: 'report' as const, label: 'Laporan', icon: <TreePine className="w-3.5 h-3.5" /> },
+              { key: 'profile' as const, label: 'Profil', icon: <User className="w-3.5 h-3.5" /> },
             ].map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
                   activeTab === tab.key
-                    ? 'bg-mangrove-neon text-mangrove-deep'
-                    : 'text-mangrove-muted hover:bg-gray-50'
+                    ? 'bg-white text-mangrove-deep shadow-sm'
+                    : 'text-gray-400 hover:text-gray-600'
                 }`}
               >
                 {tab.icon} {tab.label}
@@ -309,7 +309,7 @@ export default function IDMAPUserDashboard() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
                 {/* Program Card */}
                 <Card className="col-span-1 lg:col-span-7">
-                  <h3 className="font-bold text-mangrove-deep mb-5">Program yang Anda Dukung</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-5">Program yang Anda Dukung</h3>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <div className="w-full sm:w-48 h-40 bg-gradient-to-br from-mangrove-deep to-mangrove-teal rounded-xl flex-shrink-0 flex items-center justify-center relative overflow-hidden">
                       <TreePine className="w-12 h-12 text-mangrove-neon/30" />
@@ -350,7 +350,7 @@ export default function IDMAPUserDashboard() {
                 {/* Impact Panel */}
                 <div className="col-span-1 lg:col-span-5 space-y-4">
                   <Card>
-                    <h3 className="font-bold text-mangrove-deep mb-4">Dampak Anda</h3>
+                    <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Dampak Anda</h3>
                     <div className="space-y-3">
                       {[
                         { label: 'Pohon Hidup', value: '23' },
@@ -393,7 +393,7 @@ export default function IDMAPUserDashboard() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                 <Card className="col-span-1 lg:col-span-7">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-bold text-mangrove-deep">Riwayat Kontribusi</h3>
+                    <h3 className="text-sm font-semibold text-mangrove-deep">Riwayat Kontribusi</h3>
                     <Button variant="ghost" size="sm" className="!text-mangrove-fresh">Lihat Semua</Button>
                   </div>
                   <Table headers={['Metode', 'Tanggal', 'Jumlah']}>
@@ -416,7 +416,7 @@ export default function IDMAPUserDashboard() {
 
                 {/* Certificate */}
                 <Card className="col-span-1 lg:col-span-5">
-                  <h3 className="font-bold text-mangrove-deep mb-4">Sertifikat Terbaru</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Sertifikat Terbaru</h3>
                   <div className="border-2 border-dashed border-mangrove-fresh/30 rounded-xl p-6 text-center bg-mangrove-mint/50">
                     <div className="w-full h-36 bg-gradient-to-br from-mangrove-deep to-mangrove-teal rounded-lg flex items-center justify-center mb-4 relative overflow-hidden">
                       <Award className="w-12 h-12 text-mangrove-neon/40" />
@@ -442,14 +442,14 @@ export default function IDMAPUserDashboard() {
           {activeTab === 'contribute' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
               <Card className="col-span-1 lg:col-span-7">
-                <h3 className="font-bold text-mangrove-deep text-lg mb-6 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-mangrove-deep text-lg mb-6 flex items-center gap-2">
                   <DollarSign className="w-5 h-5 text-mangrove-fresh" /> Form Donasi Baru
                 </h3>
                 <ContributionForm />
               </Card>
               <div className="col-span-5 space-y-6">
                 <Card>
-                  <h3 className="font-bold text-mangrove-deep mb-4">Ringkasan Kontribusi</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Ringkasan Kontribusi</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between py-2 border-b border-gray-50">
                       <span className="text-sm text-mangrove-muted">Total Donasi</span>
@@ -494,14 +494,14 @@ export default function IDMAPUserDashboard() {
           {activeTab === 'report' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
               <Card className="col-span-1 lg:col-span-7">
-                <h3 className="font-bold text-mangrove-deep text-lg mb-6 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-mangrove-deep text-lg mb-6 flex items-center gap-2">
                   <TreePine className="w-5 h-5 text-mangrove-fresh" /> Laporan Lapangan Mangrove
                 </h3>
                 <FieldReportForm />
               </Card>
               <div className="col-span-5 space-y-6">
                 <Card>
-                  <h3 className="font-bold text-mangrove-deep mb-4">Panduan Laporan</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Panduan Laporan</h3>
                   <div className="space-y-3">
                     {[
                       { step: '1', text: 'Pilih lokasi program yang akan dilaporkan' },
@@ -520,7 +520,7 @@ export default function IDMAPUserDashboard() {
                   </div>
                 </Card>
                 <Card>
-                  <h3 className="font-bold text-mangrove-deep mb-4">Laporan Terakhir</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Laporan Terakhir</h3>
                   <div className="space-y-3">
                     {[
                       { loc: 'Teluk Bintuni', date: '24 Mei 2024', status: 'Terverifikasi', badge: 'green' as const },
@@ -543,14 +543,14 @@ export default function IDMAPUserDashboard() {
           {activeTab === 'profile' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
               <Card className="col-span-1 lg:col-span-7">
-                <h3 className="font-bold text-mangrove-deep text-lg mb-6 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-mangrove-deep text-lg mb-6 flex items-center gap-2">
                   <User className="w-5 h-5 text-mangrove-fresh" /> Pengaturan Profil
                 </h3>
                 <ProfileForm />
               </Card>
               <div className="col-span-5 space-y-6">
                 <Card>
-                  <h3 className="font-bold text-mangrove-deep mb-4">Status Akun</h3>
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Status Akun</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between py-2 border-b border-gray-50">
                       <span className="text-sm text-mangrove-muted">Status</span>

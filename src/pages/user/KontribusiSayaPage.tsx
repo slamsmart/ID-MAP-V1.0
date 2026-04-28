@@ -38,7 +38,7 @@ export default function KontribusiSayaPage() {
   return (
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
-      <div className="ml-0 lg:ml-60">
+      <div className="ml-0 lg:ml-56">
         <DashboardTopbar placeholder="Cari transaksi..." userName="Andi" userRole="Kontributor" />
         <main className="p-4 lg:p-6">
           <div className="flex items-center justify-between mb-6">
@@ -61,7 +61,7 @@ export default function KontribusiSayaPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
             <Card className="col-span-1 lg:col-span-8">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-mangrove-deep">Tren Kontribusi Bulanan</h3>
+                <h3 className="text-sm font-semibold text-mangrove-deep">Tren Kontribusi Bulanan</h3>
                 <Badge variant="green">2024</Badge>
               </div>
               <ResponsiveContainer width="100%" height={250}>
@@ -82,7 +82,7 @@ export default function KontribusiSayaPage() {
             </Card>
 
             <Card className="col-span-1 lg:col-span-4">
-              <h3 className="font-bold text-mangrove-deep mb-4">Per Program</h3>
+              <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Per Program</h3>
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={byProgram} layout="vertical">
                   <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={(v) => `${v / 1000}K`} />
@@ -125,7 +125,7 @@ export default function KontribusiSayaPage() {
           {/* Transaction history */}
           <Card>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-mangrove-deep">Riwayat Transaksi</h3>
+              <h3 className="text-sm font-semibold text-mangrove-deep">Riwayat Transaksi</h3>
               <div className="flex gap-2">
                 <Button variant="ghost" size="sm"><Filter className="w-4 h-4" /> Filter</Button>
               </div>

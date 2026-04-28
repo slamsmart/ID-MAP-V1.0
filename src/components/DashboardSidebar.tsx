@@ -37,7 +37,7 @@ export default function DashboardSidebar({ variant, menuItems }: DashboardSideba
         </Link>
       </div>
 
-      <nav className="flex-1 px-2.5 space-y-0.5 overflow-y-auto">
+      <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
         {menuItems.map((item) => {
           const isActive = item.href ? location.pathname === item.href : false;
           return (
@@ -45,10 +45,10 @@ export default function DashboardSidebar({ variant, menuItems }: DashboardSideba
               key={item.label}
               to={item.href || '#'}
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 ${
+              className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-150 ${
                 isActive
-                  ? 'bg-mangrove-neon text-mangrove-deep shadow-md shadow-mangrove-neon/20'
-                  : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                  ? 'bg-mangrove-neon/90 text-mangrove-deep'
+                  : 'text-gray-400 hover:bg-white/8 hover:text-gray-200'
               }`}
             >
               {item.icon}
@@ -58,15 +58,14 @@ export default function DashboardSidebar({ variant, menuItems }: DashboardSideba
         })}
       </nav>
 
-      <div className="p-3 border-t border-white/10 space-y-2">
+      <div className="p-3 border-t border-white/8">
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-[13px] font-medium text-red-300 hover:bg-red-500/10 hover:text-red-200 transition-all duration-200 cursor-pointer"
+          className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-xs font-medium text-gray-400 hover:bg-white/8 hover:text-gray-200 transition-all duration-150 cursor-pointer"
         >
-          <LogOut className="w-4 h-4" />
+          <LogOut className="w-3.5 h-3.5" />
           Keluar
         </button>
-        <p className="text-[10px] text-gray-500 px-1">© 2024 ID-MAP</p>
       </div>
     </>
   );
@@ -76,7 +75,7 @@ export default function DashboardSidebar({ variant, menuItems }: DashboardSideba
       {/* Mobile hamburger */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="fixed top-3 left-3 z-50 lg:hidden w-10 h-10 bg-mangrove-deep rounded-xl flex items-center justify-center text-white shadow-lg cursor-pointer"
+        className="fixed top-2 left-2 z-50 lg:hidden w-9 h-9 bg-mangrove-deep/90 backdrop-blur-sm rounded-lg flex items-center justify-center text-white shadow-md cursor-pointer"
       >
         <Menu className="w-5 h-5" />
       </button>
@@ -85,7 +84,7 @@ export default function DashboardSidebar({ variant, menuItems }: DashboardSideba
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
-          <aside className="relative w-64 h-full bg-gradient-to-b from-mangrove-deep to-mangrove-teal flex flex-col">
+          <aside className="relative w-56 h-full bg-gradient-to-b from-mangrove-deep to-mangrove-teal flex flex-col">
             <button
               onClick={() => setMobileOpen(false)}
               className="absolute top-3 right-3 text-gray-400 hover:text-white cursor-pointer"
@@ -98,7 +97,7 @@ export default function DashboardSidebar({ variant, menuItems }: DashboardSideba
       )}
 
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-60 bg-gradient-to-b from-mangrove-deep to-mangrove-teal flex-col z-40">
+      <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-56 bg-gradient-to-b from-mangrove-deep via-[#042724] to-mangrove-teal flex-col z-40">
         {sidebarContent}
       </aside>
     </>

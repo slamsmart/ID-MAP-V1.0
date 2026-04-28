@@ -15,7 +15,7 @@ export default function Card({ children, className = '', glass, dark }: CardProp
       : 'bg-white border-gray-100 text-gray-900';
 
   return (
-    <div className={`rounded-2xl border p-6 shadow-sm ${base} ${className}`}>
+    <div className={`rounded-xl border p-5 shadow-sm ${base} ${className}`}>
       {children}
     </div>
   );

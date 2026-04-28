@@ -33,7 +33,7 @@ export default function DampakSayaPage() {
   return (
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
-      <div className="ml-0 lg:ml-60">
+      <div className="ml-0 lg:ml-56">
         <DashboardTopbar placeholder="Cari..." userName="Andi" userRole="Kontributor" />
         <main className="p-4 lg:p-6">
           <div className="mb-6">
@@ -52,7 +52,7 @@ export default function DampakSayaPage() {
           {/* Impact visualisation */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
             <Card className="col-span-1 lg:col-span-8">
-              <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-mangrove-fresh" /> Pertumbuhan Dampak Anda
               </h3>
               <ResponsiveContainer width="100%" height={280}>
@@ -112,7 +112,7 @@ export default function DampakSayaPage() {
 
           {/* SDG contribution */}
           <Card className="mb-8">
-            <h3 className="font-bold text-mangrove-deep mb-4">Kontribusi terhadap SDGs</h3>
+            <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Kontribusi terhadap SDGs</h3>
             <div className="grid grid-cols-2 gap-4">
               {sdgs.map((s) => (
                 <div key={s.num} className="border border-gray-100 rounded-xl p-4">
@@ -134,7 +134,7 @@ export default function DampakSayaPage() {
 
           {/* Per-location impact */}
           <Card>
-            <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
               <MapPin className="w-5 h-5 text-mangrove-fresh" /> Dampak per Lokasi
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
