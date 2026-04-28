@@ -2,7 +2,8 @@ import { useState } from 'react';
 import {
   LayoutDashboard, Users, MapPin, CreditCard, TreePine, ClipboardCheck,
   BarChart3, Award, Settings, Sprout, Wind, DollarSign,
-  CheckCircle2, Clock, XCircle, AlertCircle, Eye, FileText, Search
+  CheckCircle2, Clock, XCircle, AlertCircle, Eye, FileText, Search,
+  QrCode, Download, Plus, UserPlus, Calendar, Shield, KeyRound, Link2
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import DashboardSidebar from '../components/DashboardSidebar';
@@ -13,6 +14,7 @@ import ProgressBar from '../components/ui/ProgressBar';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 import Table from '../components/ui/Table';
+import GenerateQRISModal from '../components/GenerateQRISModal';
 
 const menuItems = [
   { icon: <LayoutDashboard className="w-5 h-5" />, label: 'Dashboard', href: '/admin' },
@@ -74,18 +76,49 @@ const verificationQueue = [
   { id: 'VRF-004', project: 'Kecamatan Kwandang', type: 'Verifikasi Survival Rate', submitted: '16 Mei 2024', officer: 'Rina A.', photos: 10, status: 'Proses', badge: 'blue' as const },
 ];
 
+/* ─── Role management data ─── */
+const roleData = [
+  { name: 'Super Admin', desc: 'Semua akses', users: 2, color: 'text-red-500 bg-red-50 border-red-200' },
+  { name: 'Admin', desc: 'Kelola data, pengguna, laporan', users: 10, color: 'text-purple-500 bg-purple-50 border-purple-200' },
+  { name: 'Verifikator', desc: 'Verifikasi lapangan, input data', users: 156, color: 'text-amber-500 bg-amber-50 border-amber-200' },
+  { name: 'Kontributor', desc: 'Donasi, lihat program, sertifikat', users: 10234, color: 'text-green-500 bg-green-50 border-green-200' },
+  { name: 'CSR Partner', desc: 'Donasi korporat, laporan dampak', users: 2054, color: 'text-blue-500 bg-blue-50 border-blue-200' },
+];
+
 export default function IDMAPAdminDashboard() {
   const [tab, setTab] = useState<'overview' | 'projects' | 'verification'>('overview');
+  const [showQRIS, setShowQRIS] = useState(false);
+  const [showTambahProgram, setShowTambahProgram] = useState(false);
+  const [showUndangVerifikator, setShowUndangVerifikator] = useState(false);
+  const [showExportData, setShowExportData] = useState(false);
+  const [showJadwalOnboarding, setShowJadwalOnboarding] = useState(false);
+  const [showTerbitkanBaru, setShowTerbitkanBaru] = useState(false);
+  const [exportDone, setExportDone] = useState(false);
+  const [programSubmitted, setProgramSubmitted] = useState(false);
+  const [inviteSent, setInviteSent] = useState(false);
+  const [sertifikatPublished, setSertifikatPublished] = useState(false);
 
   return (
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="admin" menuItems={menuItems} />
+      <GenerateQRISModal isOpen={showQRIS} onClose={() => setShowQRIS(false)} />
 
       <div className="ml-64">
         <DashboardTopbar userName="Admin ID-MAP" userRole="Administrator" />
 
         <main className="p-8">
-          <h1 className="text-2xl font-bold text-mangrove-deep mb-6">Dashboard Admin</h1>
+          {/* Top action bar */}
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold text-mangrove-deep">Dashboard Admin</h1>
+            <div className="flex items-center gap-3">
+              <Button variant="ghost" size="sm" onClick={() => { setExportDone(false); setShowExportData(true); }}>
+                <Download className="w-4 h-4" /> Export
+              </Button>
+              <Button variant="neon" size="sm" onClick={() => setShowQRIS(true)}>
+                <QrCode className="w-4 h-4" /> Generate QRIS
+              </Button>
+            </div>
+          </div>
 
           {/* Tab nav */}
           <div className="flex gap-2 mb-8 bg-white rounded-xl p-1.5 border border-gray-100 w-fit">
@@ -396,8 +429,343 @@ export default function IDMAPAdminDashboard() {
               </div>
             </>
           )}
+
+          {/* Akses Cepat Section */}
+          <Card className="mt-8">
+            <div className="flex items-center gap-2 mb-4">
+              <Shield className="w-5 h-5 text-mangrove-fresh" />
+              <h3 className="font-bold text-mangrove-deep">Akses Cepat</h3>
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <button
+                onClick={() => { setInviteSent(false); setShowUndangVerifikator(true); }}
+                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-mangrove-mint border border-gray-100 hover:border-mangrove-fresh/20 transition-all cursor-pointer text-left"
+              >
+                <UserPlus className="w-5 h-5 text-mangrove-fresh" />
+                <span className="text-sm font-medium text-gray-800">Undang Verifikator</span>
+              </button>
+              <button
+                onClick={() => { setExportDone(false); setShowExportData(true); }}
+                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-mangrove-mint border border-gray-100 hover:border-mangrove-fresh/20 transition-all cursor-pointer text-left"
+              >
+                <Download className="w-5 h-5 text-mangrove-fresh" />
+                <span className="text-sm font-medium text-gray-800">Export Data</span>
+              </button>
+              <button
+                onClick={() => setShowJadwalOnboarding(true)}
+                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-mangrove-mint border border-gray-100 hover:border-mangrove-fresh/20 transition-all cursor-pointer text-left"
+              >
+                <Calendar className="w-5 h-5 text-mangrove-fresh" />
+                <span className="text-sm font-medium text-gray-800">Jadwal Onboarding</span>
+              </button>
+            </div>
+          </Card>
+
+          {/* Tambah Program Button */}
+          <div className="mt-6 flex gap-3">
+            <Button variant="neon" size="md" onClick={() => { setProgramSubmitted(false); setShowTambahProgram(true); }}>
+              <Plus className="w-4 h-4" /> Tambah Program
+            </Button>
+            <Button variant="neon" size="md" onClick={() => { setSertifikatPublished(false); setShowTerbitkanBaru(true); }}>
+              <Plus className="w-4 h-4" /> Terbitkan Baru
+            </Button>
+          </div>
+
+          {/* Manajemen Role Section */}
+          <Card className="mt-8">
+            <div className="flex items-center gap-2 mb-4">
+              <KeyRound className="w-5 h-5 text-mangrove-fresh" />
+              <h3 className="font-bold text-mangrove-deep">Manajemen Role</h3>
+            </div>
+            <div className="space-y-3">
+              {roleData.map((role) => (
+                <div key={role.name} className={`flex items-center justify-between p-4 rounded-xl border ${role.color}`}>
+                  <div className="flex items-center gap-4">
+                    <span className={`text-xs font-bold px-3 py-1 rounded-full border ${role.color}`}>{role.name}</span>
+                    <div>
+                      <p className="text-sm text-gray-700">{role.desc}</p>
+                      <p className="text-xs text-gray-400 flex items-center gap-1"><Users className="w-3 h-3" /> {role.users.toLocaleString()} pengguna</p>
+                    </div>
+                  </div>
+                  <button className="p-2 hover:bg-white/50 rounded-lg transition-colors cursor-pointer"><Settings className="w-4 h-4 text-gray-400" /></button>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 text-center">
+              <button className="text-sm font-semibold text-mangrove-fresh hover:underline flex items-center gap-1 mx-auto cursor-pointer">
+                <Link2 className="w-4 h-4" /> Kelola Permission
+              </button>
+            </div>
+          </Card>
         </main>
       </div>
+
+      {/* Tambah Program Modal */}
+      {showTambahProgram && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+            <div className="bg-gradient-to-r from-mangrove-deep to-mangrove-teal px-6 py-4 flex items-center justify-between">
+              <h3 className="text-white font-bold flex items-center gap-2"><Plus className="w-5 h-5" /> Tambah Program Baru</h3>
+              <button onClick={() => setShowTambahProgram(false)} className="text-gray-400 hover:text-white cursor-pointer"><XCircle className="w-5 h-5" /></button>
+            </div>
+            <div className="p-6">
+              {!programSubmitted ? (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Nama Program</label>
+                    <input type="text" placeholder="Nama program restorasi..." className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-mangrove-deep mb-2">Lokasi</label>
+                      <input type="text" placeholder="Provinsi, Kabupaten" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-mangrove-deep mb-2">Target Bibit</label>
+                      <input type="number" placeholder="0" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-mangrove-deep mb-2">Target Dana (Rp)</label>
+                      <input type="text" placeholder="0" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-mangrove-deep mb-2">Koordinat GPS</label>
+                      <input type="text" placeholder="lat, long" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Deskripsi Program</label>
+                    <textarea rows={3} placeholder="Deskripsi lengkap program restorasi..." className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh resize-none" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Jenis Mangrove</label>
+                    <select className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh">
+                      <option>Rhizophora mucronata</option>
+                      <option>Avicennia marina</option>
+                      <option>Sonneratia alba</option>
+                      <option>Bruguiera gymnorhiza</option>
+                      <option>Campuran</option>
+                    </select>
+                  </div>
+                  <Button variant="neon" size="md" className="w-full" onClick={() => setProgramSubmitted(true)}>
+                    <Plus className="w-4 h-4" /> Simpan Program
+                  </Button>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-mangrove-fresh/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-mangrove-fresh" />
+                  </div>
+                  <h3 className="font-bold text-mangrove-deep text-lg mb-2">Program Ditambahkan!</h3>
+                  <p className="text-sm text-mangrove-muted mb-4">Program baru berhasil ditambahkan ke sistem.</p>
+                  <Button variant="ghost" size="sm" onClick={() => setShowTambahProgram(false)}>Tutup</Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Undang Verifikator Modal */}
+      {showUndangVerifikator && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+            <div className="bg-gradient-to-r from-mangrove-deep to-mangrove-teal px-6 py-4 flex items-center justify-between">
+              <h3 className="text-white font-bold flex items-center gap-2"><UserPlus className="w-5 h-5" /> Undang Verifikator</h3>
+              <button onClick={() => setShowUndangVerifikator(false)} className="text-gray-400 hover:text-white cursor-pointer"><XCircle className="w-5 h-5" /></button>
+            </div>
+            <div className="p-6">
+              {!inviteSent ? (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Email Verifikator</label>
+                    <input type="email" placeholder="email@example.com" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Nama Lengkap</label>
+                    <input type="text" placeholder="Nama verifikator" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Wilayah Tugas</label>
+                    <select className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh">
+                      <option>Papua Barat</option>
+                      <option>Jawa Tengah</option>
+                      <option>Sumatera Selatan</option>
+                      <option>Gorontalo Utara</option>
+                      <option>Kalimantan Timur</option>
+                    </select>
+                  </div>
+                  <Button variant="neon" size="md" className="w-full" onClick={() => setInviteSent(true)}>
+                    <UserPlus className="w-4 h-4" /> Kirim Undangan
+                  </Button>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-mangrove-fresh/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-mangrove-fresh" />
+                  </div>
+                  <h3 className="font-bold text-mangrove-deep text-lg mb-2">Undangan Terkirim!</h3>
+                  <p className="text-sm text-mangrove-muted mb-4">Email undangan telah dikirim ke verifikator.</p>
+                  <Button variant="ghost" size="sm" onClick={() => setShowUndangVerifikator(false)}>Tutup</Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Export Data Modal */}
+      {showExportData && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+            <div className="bg-gradient-to-r from-mangrove-deep to-mangrove-teal px-6 py-4 flex items-center justify-between">
+              <h3 className="text-white font-bold flex items-center gap-2"><Download className="w-5 h-5" /> Export Data</h3>
+              <button onClick={() => setShowExportData(false)} className="text-gray-400 hover:text-white cursor-pointer"><XCircle className="w-5 h-5" /></button>
+            </div>
+            <div className="p-6">
+              {!exportDone ? (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Tipe Data</label>
+                    <select className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh">
+                      <option>Semua Data Program</option>
+                      <option>Data Donasi & QRIS</option>
+                      <option>Data Verifikasi</option>
+                      <option>Data Pengguna</option>
+                      <option>Laporan Dampak</option>
+                    </select>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-mangrove-deep mb-2">Dari Tanggal</label>
+                      <input type="date" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-mangrove-deep mb-2">Sampai Tanggal</label>
+                      <input type="date" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Format</label>
+                    <div className="flex gap-2">
+                      {['CSV', 'Excel', 'PDF'].map((f) => (
+                        <button key={f} className="px-4 py-2 rounded-xl text-xs font-semibold bg-gray-50 border border-gray-200 text-gray-500 hover:bg-mangrove-neon hover:text-mangrove-deep hover:border-mangrove-neon transition-all cursor-pointer">
+                          {f}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <Button variant="neon" size="md" className="w-full" onClick={() => setExportDone(true)}>
+                    <Download className="w-4 h-4" /> Export Sekarang
+                  </Button>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-mangrove-fresh/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-mangrove-fresh" />
+                  </div>
+                  <h3 className="font-bold text-mangrove-deep text-lg mb-2">Export Berhasil!</h3>
+                  <p className="text-sm text-mangrove-muted mb-4">File telah siap diunduh.</p>
+                  <Button variant="ghost" size="sm" onClick={() => setShowExportData(false)}>Tutup</Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Jadwal Onboarding Modal */}
+      {showJadwalOnboarding && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+            <div className="bg-gradient-to-r from-mangrove-deep to-mangrove-teal px-6 py-4 flex items-center justify-between">
+              <h3 className="text-white font-bold flex items-center gap-2"><Calendar className="w-5 h-5" /> Jadwal Onboarding</h3>
+              <button onClick={() => setShowJadwalOnboarding(false)} className="text-gray-400 hover:text-white cursor-pointer"><XCircle className="w-5 h-5" /></button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="space-y-3">
+                {[
+                  { date: '28 Apr 2026', title: 'Onboarding Verifikator Batch 12', attendees: 8, status: 'Upcoming' },
+                  { date: '5 Mei 2026', title: 'Training CSR Partner Baru', attendees: 3, status: 'Upcoming' },
+                  { date: '12 Mei 2026', title: 'Onboarding Admin Regional', attendees: 5, status: 'Planned' },
+                ].map((event) => (
+                  <div key={event.title} className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                    <div className="text-center flex-shrink-0">
+                      <p className="text-xs font-bold text-mangrove-deep">{event.date.split(' ')[0]}</p>
+                      <p className="text-[10px] text-mangrove-muted">{event.date.split(' ').slice(1).join(' ')}</p>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-gray-800">{event.title}</p>
+                      <p className="text-[10px] text-mangrove-muted">{event.attendees} peserta • {event.status}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Button variant="neon" size="md" className="w-full">
+                <Plus className="w-4 h-4" /> Tambah Jadwal Baru
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Terbitkan Baru (Sertifikat) Modal */}
+      {showTerbitkanBaru && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+            <div className="bg-gradient-to-r from-mangrove-deep to-mangrove-teal px-6 py-4 flex items-center justify-between">
+              <h3 className="text-white font-bold flex items-center gap-2"><Award className="w-5 h-5" /> Terbitkan Sertifikat Baru</h3>
+              <button onClick={() => setShowTerbitkanBaru(false)} className="text-gray-400 hover:text-white cursor-pointer"><XCircle className="w-5 h-5" /></button>
+            </div>
+            <div className="p-6">
+              {!sertifikatPublished ? (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Penerima Unik</label>
+                    <input type="text" placeholder="Nama penerima sertifikat" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Program Terkait</label>
+                    <select className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh">
+                      <option>Restorasi Teluk Bintuni</option>
+                      <option>Desa Timbulsloko</option>
+                      <option>TN Sembilang</option>
+                      <option>Kecamatan Kwandang</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Tipe Sertifikat</label>
+                    <select className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh">
+                      <option>Sertifikat Kontribusi</option>
+                      <option>Sertifikat CSR Partner</option>
+                      <option>Sertifikat Verifikator</option>
+                      <option>Sertifikat Penghargaan</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-mangrove-deep mb-2">Jumlah Kontribusi</label>
+                    <input type="text" placeholder="Rp 0" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh" />
+                  </div>
+                  <Button variant="neon" size="md" className="w-full" onClick={() => setSertifikatPublished(true)}>
+                    <Award className="w-4 h-4" /> Terbitkan Sertifikat
+                  </Button>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-mangrove-fresh/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-mangrove-fresh" />
+                  </div>
+                  <h3 className="font-bold text-mangrove-deep text-lg mb-2">Sertifikat Diterbitkan!</h3>
+                  <p className="text-sm text-mangrove-muted mb-4">Sertifikat baru telah berhasil diterbitkan.</p>
+                  <Button variant="ghost" size="sm" onClick={() => setShowTerbitkanBaru(false)}>Tutup</Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

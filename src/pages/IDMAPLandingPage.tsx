@@ -63,10 +63,10 @@ export default function IDMAPLandingPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <Link to="/user">
+            <Link to="/login">
               <Button variant="ghost" size="sm" className="!text-gray-300 hover:!text-white">Masuk</Button>
             </Link>
-            <Link to="/user">
+            <Link to="/register">
               <Button variant="neon" size="sm">Daftar</Button>
             </Link>
           </div>
@@ -97,7 +97,7 @@ export default function IDMAPLandingPage() {
               Integrated Digital Mangrove & Coastal Platform
             </p>
             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight mb-6">
-              Dari Data, Menjadi Aksi Nyata untuk Pesisir Indonesia
+              Infrastruktur Digital untuk Pembiayaan & Monitoring Ekosistem Pesisir Indonesia
             </h1>
             <p className="text-gray-300 text-lg mb-8 max-w-lg">
               ID-MAP mengintegrasikan data, pembiayaan berbasis QRIS, dan monitoring dampak lingkungan secara real-time.
@@ -116,18 +116,51 @@ export default function IDMAPLandingPage() {
             </div>
           </div>
 
-          {/* QRIS Card */}
+          {/* QRIS Engine Flow */}
           <div className="flex justify-center lg:justify-end">
             <div className="relative">
               <div className="absolute -inset-4 bg-mangrove-neon/10 rounded-3xl blur-2xl" />
-              <Card glass className="relative w-72 text-center">
-                <p className="text-sm font-semibold text-mangrove-neon mb-3">Dukung Lewat QRIS</p>
-                <p className="text-xs text-gray-400 mb-4">Scan untuk berkontribusi</p>
-                <div className="w-40 h-40 mx-auto bg-white rounded-xl flex items-center justify-center mb-4">
-                  <QrCode className="w-28 h-28 text-mangrove-deep" />
+              <Card glass className="relative w-80 p-6">
+                <p className="text-center text-sm font-bold text-mangrove-neon mb-1">QRIS Engine</p>
+                <p className="text-center text-[10px] text-gray-400 mb-5">Sistem Pembayaran Digital Terintegrasi</p>
+
+                {/* Flow visualization */}
+                <div className="flex flex-col items-center gap-1">
+                  {[
+                    { icon: <Users className="w-5 h-5" />, label: 'User', desc: 'Kontributor & Donor' },
+                    { icon: <QrCode className="w-5 h-5" />, label: 'QRIS', desc: 'Pembayaran Digital' },
+                    { icon: <Sprout className="w-5 h-5" />, label: 'Program', desc: 'Restorasi Mangrove' },
+                    { icon: <TrendingUp className="w-5 h-5" />, label: 'Dampak', desc: 'Lingkungan & Sosial' },
+                    { icon: <Globe className="w-5 h-5" />, label: 'Data', desc: 'Monitoring Real-time' },
+                  ].map((step, i) => (
+                    <div key={step.label}>
+                      <div className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-2.5 w-64 border border-white/10 hover:border-mangrove-neon/30 transition-colors">
+                        <div className="w-9 h-9 rounded-lg bg-mangrove-neon/15 flex items-center justify-center text-mangrove-neon flex-shrink-0">
+                          {step.icon}
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-white">{step.label}</p>
+                          <p className="text-[10px] text-gray-400">{step.desc}</p>
+                        </div>
+                      </div>
+                      {i < 4 && (
+                        <div className="flex justify-center py-0.5">
+                          <div className="w-px h-3 bg-mangrove-neon/40" />
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
-                  <span className="font-semibold text-white">ID-MAP QRIS</span>
+
+                {/* Bank Indonesia badge */}
+                <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-center gap-2">
+                  <div className="w-7 h-7 bg-white rounded-full flex items-center justify-center">
+                    <span className="text-[8px] font-extrabold text-mangrove-deep">BI</span>
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-gray-400">Didukung oleh</p>
+                    <p className="text-xs font-bold text-white">Bank Indonesia</p>
+                  </div>
                 </div>
               </Card>
             </div>
