@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import {
-  Satellite, ShieldCheck, QrCode, Database, Cpu, ClipboardCheck,
-  LayoutDashboard, Store, TreePine, Coins, FolderKanban, ArrowRight,
+  Satellite, ShieldCheck, QrCode, Database, Cpu,
+  Store, TreePine, Coins, FolderKanban, ArrowRight,
   CheckCircle2, Globe, Banknote, Activity, Map,
-  ExternalLink, Share2, Play, MessageCircle, Layers, ScanSearch
+  ExternalLink, Share2, Play, MessageCircle, Layers, ScanSearch,
+  Users, FileCheck, Building2, Leaf, Target, Heart, TrendingUp,
+  ArrowDown, ArrowLeftRight
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -24,32 +26,38 @@ const kpiCards = [
   { icon: <FolderKanban className="w-6 h-6" />, value: '128', unit: '', label: 'Registered Projects' },
 ];
 
-const flowLayers = [
+const platformSteps = [
   {
-    title: 'Data Layer',
+    step: 1,
+    title: 'Feasibility & Project Development',
     icon: <Database className="w-6 h-6" />,
-    items: ['Satellite Imagery', 'GIS & Soil Carbon', 'Community Data'],
+    items: ['Data & Baseline', 'Estimasi Karbon (tCO\u2082e)', 'Analisis Kelayakan', 'Social & Environmental Impact'],
   },
   {
-    title: 'Processing Layer',
-    icon: <Cpu className="w-6 h-6" />,
-    items: ['AI Biomass Estimation', 'Land Classification', 'Carbon Modeling'],
+    step: 2,
+    title: 'MRV (Monitoring, Reporting, Verification)',
+    icon: <Satellite className="w-6 h-6" />,
+    items: ['Satellite / Drone / Field Survey', 'Before-After Monitoring', 'Audit Trail', 'Evidence Repository'],
   },
   {
-    title: 'MRV Layer',
-    icon: <ClipboardCheck className="w-6 h-6" />,
-    items: ['Monitoring', 'Verification', 'Audit Trail'],
+    step: 3,
+    title: 'Registry Readiness',
+    icon: <FileCheck className="w-6 h-6" />,
+    items: ['Dokumen Siap SRN', 'Template SPE-GRK', 'Metodologi Karbon', 'Verifier Workflow'],
   },
   {
-    title: 'Application Layer',
-    icon: <LayoutDashboard className="w-6 h-6" />,
-    items: ['Dashboard', 'Project Builder', 'Marketplace'],
-  },
-  {
-    title: 'Market Layer',
+    step: 4,
+    title: 'Market Readiness',
     icon: <Store className="w-6 h-6" />,
-    items: ['Buyer Access', 'QRIS Integration', 'Carbon Financing'],
+    items: ['Project Listing', 'Carbon Credit Generation', 'ESG Impact Report'],
   },
+];
+
+const intelligenceFeatures = [
+  { icon: <Cpu className="w-5 h-5" />, label: 'Carbon Modeling' },
+  { icon: <ShieldCheck className="w-5 h-5" />, label: 'Risk Assessment' },
+  { icon: <TrendingUp className="w-5 h-5" />, label: 'Project Scoring' },
+  { icon: <Activity className="w-5 h-5" />, label: 'Impact Tracking' },
 ];
 
 const whyCards = [
@@ -82,8 +90,15 @@ const impactStats = [
   { value: '78%', label: 'Tingkat Kelangsungan Hidup' },
 ];
 
+const impactPillars = [
+  { icon: <Leaf className="w-6 h-6" />, label: 'Lindungi Ekosistem' },
+  { icon: <Heart className="w-6 h-6" />, label: 'Berdayakan Komunitas' },
+  { icon: <TrendingUp className="w-6 h-6" />, label: 'Dorong Ekonomi Berkelanjutan' },
+  { icon: <Target className="w-6 h-6" />, label: 'Capai Target Net Zero' },
+];
+
 const partners = [
-  'KLHK', 'BRGM', 'Bank Indonesia', 'UNDP', 'World Bank', 'GIZ',
+  'SRN', 'IDXCarbon', 'Verra', 'Gold Standard', 'QRIS', 'KLHK', 'BRGM',
 ];
 
 const footerLinkMap: Record<string, string> = {
@@ -180,7 +195,7 @@ export default function IDMAPLandingPage() {
       </nav>
 
       {/* ─── HERO ─── */}
-      <section className="pt-28 pb-20 bg-bg" style={{ padding: '112px 24px 80px' }}>
+      <section className="bg-bg" style={{ padding: '112px 24px 80px' }}>
         <div className="max-w-[1200px] mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <p
@@ -199,7 +214,7 @@ export default function IDMAPLandingPage() {
               className="text-muted mb-10 max-w-lg"
               style={{ fontSize: 16, lineHeight: 1.7 }}
             >
-              Menghubungkan data satelit, verifikasi lapangan, dan pembiayaan karbon dalam satu platform terintegrasi.
+              Menghubungkan data, verifikasi, pendanaan, dan pasar karbon untuk mendorong proyek mangrove yang berdampak dan berkelanjutan.
             </p>
 
             <div className="flex flex-wrap gap-4 mb-10">
@@ -218,9 +233,10 @@ export default function IDMAPLandingPage() {
             {/* Trust Badges */}
             <div className="flex flex-wrap gap-3">
               {[
+                { icon: <Satellite className="w-4 h-4" />, label: 'Satellite + AI Powered' },
                 { icon: <ShieldCheck className="w-4 h-4" />, label: 'MRV Verified' },
-                { icon: <Satellite className="w-4 h-4" />, label: 'Satellite + AI Driven' },
-                { icon: <QrCode className="w-4 h-4" />, label: 'Marketplace & QRIS Ready' },
+                { icon: <FileCheck className="w-4 h-4" />, label: 'Registry Ready' },
+                { icon: <Globe className="w-4 h-4" />, label: 'Market Access' },
               ].map((badge) => (
                 <span
                   key={badge.label}
@@ -240,7 +256,6 @@ export default function IDMAPLandingPage() {
               className="bg-white rounded-2xl border border-border p-6"
               style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.08)' }}
             >
-              {/* Dashboard Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-bg-soft rounded-xl flex items-center justify-center">
@@ -257,7 +272,6 @@ export default function IDMAPLandingPage() {
                 </span>
               </div>
 
-              {/* Mini Stats */}
               <div className="grid grid-cols-3 gap-3 mb-6">
                 {[
                   { label: 'Total Carbon', val: '823K ton', delta: '+12.3%' },
@@ -272,7 +286,6 @@ export default function IDMAPLandingPage() {
                 ))}
               </div>
 
-              {/* Chart Placeholder */}
               <div className="bg-bg rounded-xl p-4 mb-4">
                 <div className="flex items-center justify-between mb-3">
                   <p className="text-xs font-semibold text-text">Carbon Estimation Trend</p>
@@ -285,14 +298,13 @@ export default function IDMAPLandingPage() {
                       className="flex-1 rounded-t-sm"
                       style={{
                         height: `${h}%`,
-                        background: i === 11 ? '#16A34A' : i >= 9 ? '#16A34A' + '80' : '#EEF2F7',
+                        background: i >= 9 ? '#16A34A' : '#EEF2F7',
                       }}
                     />
                   ))}
                 </div>
               </div>
 
-              {/* Map Placeholder */}
               <div className="bg-bg rounded-xl p-4 relative overflow-hidden">
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-xs font-semibold text-text flex items-center gap-1.5">
@@ -346,7 +358,7 @@ export default function IDMAPLandingPage() {
         </div>
       </section>
 
-      {/* ─── HOW ID-MAP WORKS ─── */}
+      {/* ─── HOW ID-MAP WORKS — PLATFORM ARCHITECTURE ─── */}
       <section className="bg-bg" style={{ padding: '80px 24px' }}>
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-16">
@@ -354,57 +366,160 @@ export default function IDMAPLandingPage() {
               className="text-primary mb-3"
               style={{ fontSize: 12, fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' as const }}
             >
-              System Architecture
+              Platform Architecture
             </p>
             <h2
-              className="text-text"
+              className="text-text mb-4"
               style={{ fontSize: 36, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.8px' }}
             >
               How ID-MAP Works
             </h2>
+            <p className="text-muted max-w-2xl mx-auto" style={{ fontSize: 16, lineHeight: 1.7 }}>
+              ID-MAP membangun infrastruktur sebelum transaksi terjadi, memastikan setiap proyek karbon siap, kredibel, dan berdampak maksimal.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {flowLayers.map((layer, idx) => (
-              <div key={layer.title} className="relative">
-                <div
-                  className="bg-white rounded-2xl border border-border p-6 h-full transition-all duration-200 hover:-translate-y-1"
-                  style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}
+          {/* Two Flows + Platform Core */}
+          <div className="grid lg:grid-cols-[200px_1fr_200px] gap-6 items-start mb-8">
+            {/* Flow 1: Community Impact Funding */}
+            <div className="space-y-4">
+              <div
+                className="bg-white rounded-2xl border border-border p-5 text-center"
+                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}
+              >
+                <p
+                  className="text-primary mb-3"
+                  style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase' as const }}
                 >
-                  <div className="w-12 h-12 bg-bg-soft rounded-xl flex items-center justify-center text-primary mb-4">
-                    {layer.icon}
-                  </div>
-                  <h3 className="text-sm font-bold text-text mb-3">{layer.title}</h3>
-                  <ul className="space-y-2">
-                    {layer.items.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-sm text-muted">
-                        <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                        <span style={{ lineHeight: 1.7 }}>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  Flow 1
+                </p>
+                <div className="w-10 h-10 bg-bg-soft rounded-xl flex items-center justify-center text-primary mx-auto mb-3">
+                  <Users className="w-5 h-5" />
+                </div>
+                <p className="text-sm font-bold text-text mb-1">Community Impact Funding</p>
+                <p className="text-xs text-muted">QRIS Micro Support</p>
+              </div>
+              <div className="flex justify-center">
+                <ArrowDown className="w-5 h-5 text-primary/40" />
+              </div>
+              <div className="bg-white rounded-2xl border border-border p-4 text-center">
+                <div className="w-8 h-8 bg-bg-soft rounded-lg flex items-center justify-center text-primary mx-auto mb-2">
+                  <QrCode className="w-4 h-4" />
+                </div>
+                <p className="text-xs font-semibold text-text">QRIS</p>
+                <p className="text-xs text-muted mt-0.5">Pembayaran via ID-MAP</p>
+              </div>
+              <div className="flex justify-center">
+                <ArrowLeftRight className="w-5 h-5 text-primary/40" />
+              </div>
+              <div className="bg-white rounded-2xl border border-border p-4 text-center">
+                <div className="w-8 h-8 bg-bg-soft rounded-lg flex items-center justify-center text-primary mx-auto mb-2">
+                  <TreePine className="w-4 h-4" />
+                </div>
+                <p className="text-xs font-semibold text-text">Project Owner</p>
+                <p className="text-xs text-muted mt-0.5">Restorasi & Perlindungan</p>
+              </div>
+            </div>
+
+            {/* Platform Core — 4 Steps */}
+            <div>
+              <div
+                className="bg-white rounded-2xl border-2 border-primary/20 p-6"
+                style={{ boxShadow: '0 12px 40px rgba(22,163,74,0.08)' }}
+              >
+                <div className="text-center mb-6">
+                  <p className="text-lg font-bold text-text">ID-MAP Platform</p>
+                  <p className="text-sm text-primary font-semibold">Pre-Market Carbon Infrastructure</p>
                 </div>
 
-                {idx < flowLayers.length - 1 && (
-                  <div className="hidden lg:flex absolute top-1/2 -right-3 -translate-y-1/2 z-10">
-                    <ArrowRight className="w-5 h-5 text-primary/40" />
-                  </div>
-                )}
+                <div className="grid md:grid-cols-4 gap-4">
+                  {platformSteps.map((step, idx) => (
+                    <div key={step.step} className="relative">
+                      <div className="bg-bg rounded-xl p-4 h-full">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+                            {step.icon}
+                          </div>
+                          <span className="text-xs font-bold text-primary">{step.step}.</span>
+                        </div>
+                        <h4 className="text-xs font-bold text-text mb-2 leading-snug">{step.title}</h4>
+                        <ul className="space-y-1">
+                          {step.items.map((item) => (
+                            <li key={item} className="flex items-start gap-1.5 text-xs text-muted">
+                              <CheckCircle2 className="w-3 h-3 text-primary mt-0.5 shrink-0" />
+                              <span style={{ lineHeight: 1.5 }}>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      {idx < platformSteps.length - 1 && (
+                        <div className="hidden md:flex absolute top-1/2 -right-2 -translate-y-1/2 z-10">
+                          <ArrowRight className="w-4 h-4 text-primary/40" />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
 
-          {/* Flow Labels */}
-          <div className="hidden lg:flex justify-between mt-6 px-8">
-            {['DATA', 'PROCESSING', 'MRV', 'APPLICATION', 'MARKET'].map((label) => (
-              <span
-                key={label}
-                className="text-primary text-center flex-1"
-                style={{ fontSize: 11, fontWeight: 700, letterSpacing: '1.5px' }}
+              {/* Data Intelligence Layer */}
+              <div
+                className="mt-4 bg-white rounded-2xl border border-border p-4"
+                style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.04)' }}
               >
-                {label}
-              </span>
-            ))}
+                <div className="flex flex-wrap items-center justify-center gap-6">
+                  <p className="text-xs font-bold text-text">Data Intelligence Layer (AI & Analytics)</p>
+                  <div className="flex flex-wrap gap-4">
+                    {intelligenceFeatures.map((f) => (
+                      <span key={f.label} className="inline-flex items-center gap-1.5 text-xs text-muted">
+                        <span className="text-primary">{f.icon}</span>
+                        {f.label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Flow 2: Carbon Market Access */}
+            <div className="space-y-4">
+              <div
+                className="bg-white rounded-2xl border border-border p-5 text-center"
+                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}
+              >
+                <p
+                  className="text-primary mb-3"
+                  style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase' as const }}
+                >
+                  Flow 2
+                </p>
+                <div className="w-10 h-10 bg-bg-soft rounded-xl flex items-center justify-center text-primary mx-auto mb-3">
+                  <Building2 className="w-5 h-5" />
+                </div>
+                <p className="text-sm font-bold text-text mb-1">Carbon Market Access</p>
+                <p className="text-xs text-muted">Corporate & Global Buyer</p>
+              </div>
+              <div className="flex justify-center">
+                <ArrowDown className="w-5 h-5 text-primary/40" />
+              </div>
+              <div className="bg-white rounded-2xl border border-border p-4 text-center">
+                <div className="w-8 h-8 bg-bg-soft rounded-lg flex items-center justify-center text-primary mx-auto mb-2">
+                  <FileCheck className="w-4 h-4" />
+                </div>
+                <p className="text-xs font-semibold text-text">Registry</p>
+                <p className="text-xs text-muted mt-0.5">SRN / Verra / GS</p>
+              </div>
+              <div className="flex justify-center">
+                <ArrowDown className="w-5 h-5 text-primary/40" />
+              </div>
+              <div className="bg-white rounded-2xl border border-border p-4 text-center">
+                <div className="w-8 h-8 bg-bg-soft rounded-lg flex items-center justify-center text-primary mx-auto mb-2">
+                  <Store className="w-4 h-4" />
+                </div>
+                <p className="text-xs font-semibold text-text">Marketplace</p>
+                <p className="text-xs text-muted mt-0.5">IDXCarbon / Global</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -434,7 +549,6 @@ export default function IDMAPLandingPage() {
             className="bg-bg rounded-3xl border border-border p-8 lg:p-12"
             style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.06)' }}
           >
-            {/* Dashboard Tabs */}
             <div className="flex flex-wrap gap-3 mb-8">
               {['Carbon Overview', 'Map Preview', 'Carbon Estimation', 'Project Status', 'Marketplace'].map((tab, i) => (
                 <span
@@ -451,9 +565,7 @@ export default function IDMAPLandingPage() {
             </div>
 
             <div className="grid lg:grid-cols-3 gap-6">
-              {/* Left: Project Overview */}
               <div className="lg:col-span-2 space-y-6">
-                {/* Stats Row */}
                 <div className="grid grid-cols-3 gap-4">
                   {[
                     { label: 'Verified Carbon', val: '823.4K ton', icon: <Globe className="w-4 h-4" />, badge: 'Verified' },
@@ -471,7 +583,6 @@ export default function IDMAPLandingPage() {
                   ))}
                 </div>
 
-                {/* Chart */}
                 <div className="bg-white rounded-2xl border border-border p-5">
                   <div className="flex items-center justify-between mb-4">
                     <div>
@@ -505,9 +616,7 @@ export default function IDMAPLandingPage() {
                 </div>
               </div>
 
-              {/* Right: Map + Status */}
               <div className="space-y-6">
-                {/* Map Preview */}
                 <div className="bg-white rounded-2xl border border-border p-5">
                   <div className="flex items-center justify-between mb-3">
                     <p className="text-sm font-bold text-text flex items-center gap-1.5">
@@ -534,7 +643,6 @@ export default function IDMAPLandingPage() {
                   </div>
                 </div>
 
-                {/* Project Status */}
                 <div className="bg-white rounded-2xl border border-border p-5">
                   <p className="text-sm font-bold text-text mb-4">Project Status</p>
                   <div className="space-y-3">
@@ -564,7 +672,6 @@ export default function IDMAPLandingPage() {
                   </div>
                 </div>
 
-                {/* Marketplace Mini */}
                 <div className="bg-white rounded-2xl border border-border p-5">
                   <p className="text-sm font-bold text-text mb-3 flex items-center gap-1.5">
                     <Store className="w-4 h-4 text-primary" />
@@ -645,7 +752,7 @@ export default function IDMAPLandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {impactStats.map((stat) => (
               <div
                 key={stat.label}
@@ -653,6 +760,18 @@ export default function IDMAPLandingPage() {
               >
                 <p className="text-4xl font-extrabold text-primary mb-2">{stat.value}</p>
                 <p className="text-sm text-gray-400">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Impact Pillars */}
+          <div className="flex flex-wrap justify-center gap-6">
+            {impactPillars.map((pillar) => (
+              <div key={pillar.label} className="flex items-center gap-3 text-sm text-gray-300">
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                  {pillar.icon}
+                </div>
+                <span className="font-medium">{pillar.label}</span>
               </div>
             ))}
           </div>
@@ -665,7 +784,7 @@ export default function IDMAPLandingPage() {
           <p className="text-center text-sm text-muted mb-8 font-semibold" style={{ letterSpacing: '0.5px' }}>
             Didukung & Dipercaya Oleh
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-8">
+          <div className="flex flex-wrap items-center justify-center gap-6">
             {partners.map((p) => (
               <span
                 key={p}
@@ -680,15 +799,15 @@ export default function IDMAPLandingPage() {
       </section>
 
       {/* ─── FINAL CTA ─── */}
-      <section className="bg-bg" style={{ padding: '80px 24px' }}>
+      <section className="bg-deep" style={{ padding: '80px 24px' }}>
         <div className="max-w-[800px] mx-auto text-center">
           <h2
-            className="text-text mb-4"
+            className="text-white mb-4"
             style={{ fontSize: 36, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.8px' }}
           >
             Siap Membangun Infrastruktur Karbon?
           </h2>
-          <p className="text-muted mb-10 max-w-lg mx-auto" style={{ fontSize: 16, lineHeight: 1.7 }}>
+          <p className="text-gray-400 mb-10 max-w-lg mx-auto" style={{ fontSize: 16, lineHeight: 1.7 }}>
             Bergabung dengan ID-MAP dan mulai kelola proyek karbon Anda dengan teknologi yang terpercaya.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
@@ -698,7 +817,7 @@ export default function IDMAPLandingPage() {
               </button>
             </Link>
             <Link to="/admin">
-              <button className="inline-flex items-center gap-2 px-8 py-4 text-base font-bold border-2 border-primary text-primary bg-white rounded-xl hover:bg-bg-soft transition-all duration-200 hover:-translate-y-1 cursor-pointer">
+              <button className="inline-flex items-center gap-2 px-8 py-4 text-base font-bold border-2 border-white/20 text-white bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-200 hover:-translate-y-1 cursor-pointer">
                 Lihat Demo
               </button>
             </Link>
