@@ -1,30 +1,41 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Eye, EyeOff, Shield, ClipboardCheck, Heart, Building2 } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, Heart, Building2, Check } from 'lucide-react';
+import { useMutation } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 import Button from '../components/ui/Button';
 
 const roles = [
-  { id: 'kontributor', label: 'Kontributor', desc: 'Donasi, lihat program, sertifikat', icon: <Heart className="w-5 h-5" />, color: 'border-mangrove-fresh text-mangrove-fresh', route: '/user' },
-  { id: 'verifikator', label: 'Verifikator', desc: 'Verifikasi lapangan, input data', icon: <ClipboardCheck className="w-5 h-5" />, color: 'border-amber-400 text-amber-500', route: '/verifikator' },
-  { id: 'csr_partner', label: 'CSR Partner', desc: 'Donasi korporat, laporan dampak', icon: <Building2 className="w-5 h-5" />, color: 'border-blue-400 text-blue-500', route: '/user' },
-  { id: 'admin', label: 'Admin', desc: 'Kelola data, pengguna, laporan', icon: <Shield className="w-5 h-5" />, color: 'border-purple-400 text-purple-500', route: '/admin' },
+  { id: 'kontributor' as const, label: 'Kontributor', desc: 'Donasi, lihat program, sertifikat', icon: <Heart className="w-5 h-5" />, route: '/user' },
+  { id: 'csr_partner' as const, label: 'CSR Partner', desc: 'Donasi korporat, laporan dampak', icon: <Building2 className="w-5 h-5" />, route: '/user' },
 ];
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState('kontributor');
+  const [selectedRole, setSelectedRole] = useState<'kontributor' | 'csr_partner'>('kontributor');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const registerUser = useMutation(api.users.register);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      await registerUser({ name, email, role: selectedRole, authProvider: 'email' });
+    } catch {
+      // Convex not connected — continue with local navigation
+    }
     const role = roles.find((r) => r.id === selectedRole);
     navigate(role?.route || '/user');
   };
 
-  const handleGmailRegister = () => {
+  const handleGmailRegister = async () => {
+    try {
+      await registerUser({ name: name || 'Google User', email: email || 'user@gmail.com', role: selectedRole, authProvider: 'google' });
+    } catch {
+      // Convex not connected — continue with local navigation
+    }
     const role = roles.find((r) => r.id === selectedRole);
     navigate(role?.route || '/user');
   };
@@ -38,26 +49,37 @@ export default function RegisterPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
-          {/* Role selection */}
+          {/* Role selection - checklist style */}
           <div className="mb-6">
             <label className="block text-xs font-semibold text-mangrove-deep mb-3">Pilih Peran Anda</label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-2">
               {roles.map((role) => (
                 <button
                   key={role.id}
                   type="button"
                   onClick={() => setSelectedRole(role.id)}
-                  className={`p-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
+                  className={`w-full flex items-center gap-3 p-3.5 rounded-xl border-2 text-left transition-all cursor-pointer ${
                     selectedRole === role.id
-                      ? `${role.color} bg-gray-50`
-                      : 'border-gray-200 text-gray-500 hover:border-gray-300'
+                      ? 'border-mangrove-fresh bg-mangrove-mint/50'
+                      : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
-                  <div className="flex items-center gap-2 mb-1">
-                    {role.icon}
-                    <span className="text-sm font-bold">{role.label}</span>
+                  <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                    selectedRole === role.id
+                      ? 'bg-mangrove-fresh border-mangrove-fresh'
+                      : 'border-gray-300'
+                  }`}>
+                    {selectedRole === role.id && <Check className="w-3 h-3 text-white" />}
                   </div>
-                  <p className="text-[10px] text-gray-400">{role.desc}</p>
+                  <div className="flex items-center gap-2.5 flex-1">
+                    <span className={`${selectedRole === role.id ? 'text-mangrove-fresh' : 'text-gray-400'}`}>
+                      {role.icon}
+                    </span>
+                    <div>
+                      <span className={`text-sm font-bold ${selectedRole === role.id ? 'text-mangrove-deep' : 'text-gray-600'}`}>{role.label}</span>
+                      <p className="text-[10px] text-gray-400">{role.desc}</p>
+                    </div>
+                  </div>
                 </button>
               ))}
             </div>

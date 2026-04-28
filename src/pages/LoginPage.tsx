@@ -1,27 +1,50 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Heart, ClipboardCheck, Building2, Shield, Check } from 'lucide-react';
+import { useMutation } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 import Button from '../components/ui/Button';
+
+const loginRoles = [
+  { id: 'kontributor' as const, label: 'Kontributor', desc: 'Donasi, lihat program, sertifikat', icon: <Heart className="w-4 h-4" />, route: '/user' },
+  { id: 'verifikator' as const, label: 'Verifikator', desc: 'Verifikasi lapangan, input data', icon: <ClipboardCheck className="w-4 h-4" />, route: '/verifikator' },
+  { id: 'csr_partner' as const, label: 'CSR Partner', desc: 'Donasi korporat, laporan dampak', icon: <Building2 className="w-4 h-4" />, route: '/user' },
+  { id: 'admin' as const, label: 'Admin', desc: 'Kelola data, pengguna, laporan', icon: <Shield className="w-4 h-4" />, route: '/admin' },
+];
+
+type RoleId = 'kontributor' | 'verifikator' | 'csr_partner' | 'admin';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [selectedRole, setSelectedRole] = useState<RoleId>('kontributor');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const loginUser = useMutation(api.users.login);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.includes('admin')) navigate('/admin');
-    else if (email.includes('verifikator')) navigate('/verifikator');
-    else navigate('/user');
+    try {
+      await loginUser({ email, role: selectedRole, authProvider: 'email' });
+    } catch {
+      // Convex not connected — continue with local navigation
+    }
+    const role = loginRoles.find((r) => r.id === selectedRole);
+    navigate(role?.route || '/user');
   };
 
-  const handleGmailLogin = () => {
-    navigate('/user');
+  const handleGmailLogin = async () => {
+    try {
+      await loginUser({ email: email || 'user@gmail.com', role: selectedRole, authProvider: 'google' });
+    } catch {
+      // Convex not connected — continue with local navigation
+    }
+    const role = loginRoles.find((r) => r.id === selectedRole);
+    navigate(role?.route || '/user');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-mangrove-deep to-mangrove-teal flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-mangrove-deep to-mangrove-teal flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link to="/" className="text-3xl font-extrabold text-mangrove-neon tracking-tight">ID-MAP</Link>
@@ -29,7 +52,43 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
-          <form onSubmit={handleLogin} className="space-y-5">
+          {/* Role selection - checklist style */}
+          <div className="mb-6">
+            <label className="block text-xs font-semibold text-mangrove-deep mb-3">Pilih Peran Anda</label>
+            <div className="grid grid-cols-2 gap-2">
+              {loginRoles.map((role) => (
+                <button
+                  key={role.id}
+                  type="button"
+                  onClick={() => setSelectedRole(role.id)}
+                  className={`flex items-center gap-2 p-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
+                    selectedRole === role.id
+                      ? 'border-mangrove-fresh bg-mangrove-mint/50'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <div className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                    selectedRole === role.id
+                      ? 'bg-mangrove-fresh border-mangrove-fresh'
+                      : 'border-gray-300'
+                  }`}>
+                    {selectedRole === role.id && <Check className="w-2.5 h-2.5 text-white" />}
+                  </div>
+                  <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                    <span className={`flex-shrink-0 ${selectedRole === role.id ? 'text-mangrove-fresh' : 'text-gray-400'}`}>
+                      {role.icon}
+                    </span>
+                    <div className="min-w-0">
+                      <p className={`text-xs font-bold truncate ${selectedRole === role.id ? 'text-mangrove-deep' : 'text-gray-600'}`}>{role.label}</p>
+                      <p className="text-[9px] text-gray-400 truncate">{role.desc}</p>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-mangrove-deep mb-2">Email</label>
               <div className="relative">

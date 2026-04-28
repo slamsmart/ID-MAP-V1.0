@@ -6,6 +6,8 @@ import {
   QrCode, Download, Plus, UserPlus, Calendar, Shield, KeyRound, Link2
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
+import { useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 import DashboardSidebar from '../components/DashboardSidebar';
 import DashboardTopbar from '../components/DashboardTopbar';
 import StatCard from '../components/ui/StatCard';
@@ -15,6 +17,20 @@ import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 import Table from '../components/ui/Table';
 import GenerateQRISModal from '../components/GenerateQRISModal';
+
+const roleBadgeColors: Record<string, string> = {
+  kontributor: 'bg-green-50 text-green-600 border-green-200',
+  verifikator: 'bg-amber-50 text-amber-600 border-amber-200',
+  csr_partner: 'bg-blue-50 text-blue-600 border-blue-200',
+  admin: 'bg-purple-50 text-purple-600 border-purple-200',
+};
+
+const roleLabels: Record<string, string> = {
+  kontributor: 'Kontributor',
+  verifikator: 'Verifikator',
+  csr_partner: 'CSR Partner',
+  admin: 'Admin',
+};
 
 const menuItems = [
   { icon: <LayoutDashboard className="w-5 h-5" />, label: 'Dashboard', href: '/admin' },
@@ -86,6 +102,7 @@ const roleData = [
 ];
 
 export default function IDMAPAdminDashboard() {
+  const convexUsers = useQuery(api.users.listUsers);
   const [tab, setTab] = useState<'overview' | 'projects' | 'verification'>('overview');
   const [showQRIS, setShowQRIS] = useState(false);
   const [showTambahProgram, setShowTambahProgram] = useState(false);
@@ -497,6 +514,51 @@ export default function IDMAPAdminDashboard() {
               </button>
             </div>
           </Card>
+
+          {/* Registered Users from Convex */}
+          {convexUsers && convexUsers.length > 0 && (
+            <Card className="mt-8">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <Users className="w-5 h-5 text-mangrove-fresh" />
+                  <h3 className="font-bold text-mangrove-deep">Pengguna Terdaftar (Convex)</h3>
+                </div>
+                <span className="text-xs font-bold text-mangrove-fresh bg-mangrove-mint px-2.5 py-1 rounded-full">{convexUsers.length} pengguna</span>
+              </div>
+              <div className="overflow-hidden rounded-xl border border-gray-100">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-gray-50 text-left">
+                      <th className="px-4 py-2.5 text-xs font-semibold text-mangrove-muted">Nama</th>
+                      <th className="px-4 py-2.5 text-xs font-semibold text-mangrove-muted">Email</th>
+                      <th className="px-4 py-2.5 text-xs font-semibold text-mangrove-muted">Role</th>
+                      <th className="px-4 py-2.5 text-xs font-semibold text-mangrove-muted">Auth</th>
+                      <th className="px-4 py-2.5 text-xs font-semibold text-mangrove-muted">Tanggal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {convexUsers.map((u) => (
+                      <tr key={u._id} className="border-t border-gray-50 hover:bg-gray-50/50">
+                        <td className="px-4 py-2.5 font-medium text-gray-800">{u.name}</td>
+                        <td className="px-4 py-2.5 text-gray-500">{u.email}</td>
+                        <td className="px-4 py-2.5">
+                          <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold border ${roleBadgeColors[u.role] || 'bg-gray-50 text-gray-500 border-gray-200'}`}>
+                            {roleLabels[u.role] || u.role}
+                          </span>
+                        </td>
+                        <td className="px-4 py-2.5">
+                          <span className={`text-[10px] font-semibold ${u.authProvider === 'google' ? 'text-blue-500' : 'text-gray-400'}`}>
+                            {u.authProvider === 'google' ? 'Google' : 'Email'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-2.5 text-xs text-gray-400">{new Date(u.createdAt).toLocaleDateString('id-ID')}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          )}
         </main>
       </div>
 
