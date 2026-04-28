@@ -120,14 +120,14 @@ export default function IDMAPAdminDashboard() {
       <DashboardSidebar variant="admin" menuItems={menuItems} />
       <GenerateQRISModal isOpen={showQRIS} onClose={() => setShowQRIS(false)} />
 
-      <div className="ml-64">
+      <div className="ml-0 lg:ml-60">
         <DashboardTopbar userName="Admin ID-MAP" userRole="Administrator" />
 
-        <main className="p-8">
+        <main className="p-4 lg:p-6">
           {/* Top action bar */}
-          <div className="flex items-center justify-between mb-6">
-            <h1 className="text-2xl font-bold text-mangrove-deep">Dashboard Admin</h1>
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-5">
+            <h1 className="text-xl lg:text-2xl font-bold text-mangrove-deep">Dashboard Admin</h1>
+            <div className="flex items-center gap-2">
               <Button variant="ghost" size="sm" onClick={() => { setExportDone(false); setShowExportData(true); }}>
                 <Download className="w-4 h-4" /> Export
               </Button>
@@ -138,7 +138,7 @@ export default function IDMAPAdminDashboard() {
           </div>
 
           {/* Tab nav */}
-          <div className="flex gap-2 mb-8 bg-white rounded-xl p-1.5 border border-gray-100 w-fit">
+          <div className="flex gap-1.5 mb-6 bg-white rounded-xl p-1 border border-gray-100 w-full sm:w-fit overflow-x-auto">
             {[
               { key: 'overview' as const, label: 'Ringkasan', icon: <LayoutDashboard className="w-4 h-4" /> },
               { key: 'projects' as const, label: 'Cek Proyek', icon: <Search className="w-4 h-4" /> },
@@ -159,7 +159,7 @@ export default function IDMAPAdminDashboard() {
           {tab === 'overview' && (
             <>
               {/* Stat Cards */}
-              <div className="grid grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
                 <StatCard icon={<Users className="w-5 h-5" />} label="Total Pengguna" value="12.456" delta="+8,5%" />
                 <StatCard icon={<DollarSign className="w-5 h-5" />} label="Total Donasi (QRIS)" value="Rp 98,65 M" delta="+12,3%" />
                 <StatCard icon={<Sprout className="w-5 h-5" />} label="Bibit Ditanam" value="1.285.760" delta="+15,2%" />
@@ -167,8 +167,8 @@ export default function IDMAPAdminDashboard() {
               </div>
 
               {/* Charts + Activity */}
-              <div className="grid grid-cols-12 gap-6 mb-8">
-                <Card className="col-span-5">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
+                <Card className="col-span-1 lg:col-span-5">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="font-bold text-mangrove-deep">Tren Kontribusi (QRIS)</h3>
                     <select className="text-xs bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-mangrove-muted">
@@ -195,7 +195,7 @@ export default function IDMAPAdminDashboard() {
                   </ResponsiveContainer>
                 </Card>
 
-                <Card className="col-span-3">
+                <Card className="col-span-1 lg:col-span-3">
                   <h3 className="font-bold text-mangrove-deep mb-4">Kontribusi per Sumber</h3>
                   <ResponsiveContainer width="100%" height={240}>
                     <PieChart>
@@ -212,7 +212,7 @@ export default function IDMAPAdminDashboard() {
                   </div>
                 </Card>
 
-                <Card className="col-span-4">
+                <Card className="col-span-1 lg:col-span-4">
                   <h3 className="font-bold text-mangrove-deep mb-6">Aktivitas Terbaru</h3>
                   <div className="space-y-5">
                     {activities.map((a, i) => (
@@ -255,7 +255,7 @@ export default function IDMAPAdminDashboard() {
           {tab === 'projects' && (
             <>
               {/* Project checking stats */}
-              <div className="grid grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
                 <StatCard icon={<MapPin className="w-5 h-5" />} label="Total Program" value="8" />
                 <StatCard icon={<CheckCircle2 className="w-5 h-5" />} label="Terverifikasi" value="4" />
                 <StatCard icon={<Clock className="w-5 h-5" />} label="Menunggu Verifikasi" value="3" />
@@ -300,7 +300,7 @@ export default function IDMAPAdminDashboard() {
               </Card>
 
               {/* Project detail panels */}
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card>
                   <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
                     <CheckCircle2 className="w-5 h-5 text-mangrove-fresh" /> Ringkasan Verifikasi
@@ -373,7 +373,7 @@ export default function IDMAPAdminDashboard() {
           {tab === 'verification' && (
             <>
               {/* Verification stats */}
-              <div className="grid grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
                 <StatCard icon={<ClipboardCheck className="w-5 h-5" />} label="Antrian Verifikasi" value="4" />
                 <StatCard icon={<CheckCircle2 className="w-5 h-5" />} label="Disetujui (Bulan Ini)" value="18" />
                 <StatCard icon={<XCircle className="w-5 h-5" />} label="Ditolak" value="2" />
@@ -453,7 +453,7 @@ export default function IDMAPAdminDashboard() {
               <Shield className="w-5 h-5 text-mangrove-fresh" />
               <h3 className="font-bold text-mangrove-deep">Akses Cepat</h3>
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <button
                 onClick={() => { setInviteSent(false); setShowUndangVerifikator(true); }}
                 className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-mangrove-mint border border-gray-100 hover:border-mangrove-fresh/20 transition-all cursor-pointer text-left"
@@ -479,7 +479,7 @@ export default function IDMAPAdminDashboard() {
           </Card>
 
           {/* Tambah Program Button */}
-          <div className="mt-6 flex gap-3">
+          <div className="mt-5 flex flex-wrap gap-2">
             <Button variant="neon" size="md" onClick={() => { setProgramSubmitted(false); setShowTambahProgram(true); }}>
               <Plus className="w-4 h-4" /> Tambah Program
             </Button>

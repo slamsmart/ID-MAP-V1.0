@@ -69,7 +69,7 @@ function VerificationForm() {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="block text-xs font-semibold text-mangrove-deep mb-2">Tugas Verifikasi</label>
           <select className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:border-mangrove-fresh outline-none">
@@ -88,7 +88,7 @@ function VerificationForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="block text-xs font-semibold text-mangrove-deep mb-2 flex items-center gap-1"><MapPin className="w-3 h-3" /> Latitude</label>
           <input type="text" defaultValue="-6.8975" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 outline-none" />
@@ -99,7 +99,7 @@ function VerificationForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div>
           <label className="block text-xs font-semibold text-mangrove-deep mb-2">Bibit Ditemukan</label>
           <input type="number" defaultValue="175000" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 outline-none" />
@@ -141,7 +141,7 @@ function VerificationForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Button variant="outline" size="md" className="w-full !border-mangrove-deep !text-mangrove-deep">
           <Upload className="w-4 h-4" /> Simpan Draft
         </Button>
@@ -160,14 +160,14 @@ export default function IDMAPVerifikatorDashboard() {
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="verifikator" menuItems={menuItems} />
 
-      <div className="ml-64">
+      <div className="ml-0 lg:ml-60">
         <DashboardTopbar placeholder="Cari tugas..." userName="Verifikator" userRole="Field Officer" />
 
-        <main className="p-8">
-          <h1 className="text-2xl font-bold text-mangrove-deep mb-6">Dashboard Verifikator</h1>
+        <main className="p-4 lg:p-6">
+          <h1 className="text-xl lg:text-2xl font-bold text-mangrove-deep mb-5">Dashboard Verifikator</h1>
 
           {/* Tab nav */}
-          <div className="flex gap-2 mb-8 bg-white rounded-xl p-1.5 border border-gray-100 w-fit">
+          <div className="flex gap-1.5 mb-6 bg-white rounded-xl p-1 border border-gray-100 w-full sm:w-fit overflow-x-auto">
             {[
               { key: 'overview' as const, label: 'Ringkasan', icon: <LayoutDashboard className="w-4 h-4" /> },
               { key: 'workflow' as const, label: 'Alur Verifikasi', icon: <ClipboardCheck className="w-4 h-4" /> },
@@ -188,16 +188,16 @@ export default function IDMAPVerifikatorDashboard() {
           {tab === 'overview' && (
             <>
               {/* Stat Cards */}
-              <div className="grid grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
                 <StatCard icon={<ClipboardCheck className="w-5 h-5" />} label="Tugas Aktif" value="24" />
                 <StatCard icon={<CheckCircle2 className="w-5 h-5" />} label="Tugas Selesai" value="128" />
                 <StatCard icon={<Clock className="w-5 h-5" />} label="Menunggu Validasi" value="16" />
                 <StatCard icon={<XCircle className="w-5 h-5" />} label="Ditolak" value="3" />
               </div>
 
-              <div className="grid grid-cols-12 gap-6 mb-8">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
                 {/* Tasks */}
-                <Card className="col-span-5">
+                <Card className="col-span-1 lg:col-span-5">
                   <h3 className="font-bold text-mangrove-deep mb-5">Tugas Verifikasi</h3>
                   <div className="space-y-4">
                     {tasks.map((t) => (
@@ -219,7 +219,7 @@ export default function IDMAPVerifikatorDashboard() {
                 </Card>
 
                 {/* Map */}
-                <Card className="col-span-7">
+                <Card className="col-span-1 lg:col-span-7">
                   <h3 className="font-bold text-mangrove-deep mb-4">Peta Tugas</h3>
                   <MangroveMap
                     className="h-72"
@@ -235,12 +235,12 @@ export default function IDMAPVerifikatorDashboard() {
               </div>
 
               {/* Field Evidence */}
-              <Card className="mb-8">
-                <div className="flex items-center justify-between mb-6">
+              <Card className="mb-6">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4">
                   <h3 className="font-bold text-mangrove-deep">Aktivitas Lapangan</h3>
                   <Button variant="ghost" size="sm" className="!text-mangrove-fresh">Lihat Semua</Button>
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {fieldPhotos.map((photo, i) => (
                     <div key={i} className="rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow">
                       <div className="h-44 bg-gradient-to-br from-mangrove-deep to-mangrove-teal flex items-center justify-center relative">
@@ -260,7 +260,7 @@ export default function IDMAPVerifikatorDashboard() {
               </Card>
 
               {/* Action Buttons */}
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <Button variant="neon" size="lg" className="w-full" onClick={() => setTab('form')}>
                   <Play className="w-5 h-5" /> Mulai Verifikasi
                 </Button>
@@ -275,7 +275,7 @@ export default function IDMAPVerifikatorDashboard() {
               {/* Additional Fields */}
               <Card className="mt-8">
                 <h3 className="font-bold text-mangrove-deep mb-4">Detail Verifikasi Lapangan</h3>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                   {[
                     { label: 'GPS Coordinate', value: '-6.8975, 110.6383', icon: <MapPin className="w-4 h-4" /> },
                     { label: 'Foto Sebelum/Sesudah', value: '12 foto', icon: <Camera className="w-4 h-4" /> },
@@ -299,7 +299,7 @@ export default function IDMAPVerifikatorDashboard() {
           {tab === 'workflow' && (
             <>
               {/* Workflow stats */}
-              <div className="grid grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
                 <StatCard icon={<ClipboardCheck className="w-5 h-5" />} label="Antrian" value="3" />
                 <StatCard icon={<Navigation className="w-5 h-5" />} label="Sedang Proses" value="1" />
                 <StatCard icon={<CheckCircle2 className="w-5 h-5" />} label="Selesai Hari Ini" value="2" />
@@ -349,7 +349,7 @@ export default function IDMAPVerifikatorDashboard() {
               </Card>
 
               {/* Workflow detail + history */}
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card>
                   <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
                     <Eye className="w-5 h-5 text-mangrove-fresh" /> Detail Tugas — VRF-0405-001
@@ -410,14 +410,14 @@ export default function IDMAPVerifikatorDashboard() {
           )}
 
           {tab === 'form' && (
-            <div className="grid grid-cols-12 gap-6">
-              <Card className="col-span-7">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+              <Card className="col-span-1 lg:col-span-7">
                 <h3 className="font-bold text-mangrove-deep text-lg mb-6 flex items-center gap-2">
                   <ClipboardCheck className="w-5 h-5 text-mangrove-fresh" /> Form Verifikasi Lapangan
                 </h3>
                 <VerificationForm />
               </Card>
-              <div className="col-span-5 space-y-6">
+              <div className="col-span-1 lg:col-span-5 space-y-4">
                 <Card>
                   <h3 className="font-bold text-mangrove-deep mb-4">Checklist Verifikasi</h3>
                   <div className="space-y-3">

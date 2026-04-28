@@ -69,9 +69,9 @@ export default function PengaturanPage() {
   return (
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
-      <div className="ml-64">
+      <div className="ml-0 lg:ml-60">
         <DashboardTopbar placeholder="Cari pengaturan..." userName="Andi" userRole="Kontributor" />
-        <main className="p-8">
+        <main className="p-4 lg:p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-bold text-mangrove-deep">Pengaturan</h1>
@@ -85,7 +85,7 @@ export default function PengaturanPage() {
             )}
           </div>
 
-          <div className="grid grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
             {/* Left sidebar nav */}
             <div className="col-span-3 space-y-1">
               {sections.map((s) => (
@@ -130,7 +130,7 @@ export default function PengaturanPage() {
             </div>
 
             {/* Right content */}
-            <div className="col-span-9">
+            <div className="col-span-1 lg:col-span-9">
               {/* Profile */}
               {activeSection === 'profil' && (
                 <div className="space-y-6">

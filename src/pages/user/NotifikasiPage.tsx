@@ -66,9 +66,9 @@ export default function NotifikasiPage() {
   return (
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
-      <div className="ml-64">
+      <div className="ml-0 lg:ml-60">
         <DashboardTopbar placeholder="Cari notifikasi..." userName="Andi" userRole="Kontributor" />
-        <main className="p-8">
+        <main className="p-4 lg:p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-bold text-mangrove-deep">Notifikasi</h1>
@@ -82,7 +82,7 @@ export default function NotifikasiPage() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
             <StatCard icon={<Bell className="w-5 h-5" />} label="Total Notifikasi" value={String(notifs.length)} delta="semua waktu" />
             <StatCard icon={<AlertCircle className="w-5 h-5" />} label="Belum Dibaca" value={String(unreadCount)} delta={unreadCount > 0 ? 'perlu perhatian' : 'semua dibaca'} />
             <StatCard icon={<Calendar className="w-5 h-5" />} label="Minggu Ini" value="3" delta="baru" />

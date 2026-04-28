@@ -138,7 +138,7 @@ function FieldReportForm() {
         </select>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="block text-xs font-semibold text-mangrove-deep mb-2">Latitude</label>
           <input type="text" defaultValue="-2.12345" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:border-mangrove-fresh focus:ring-1 focus:ring-mangrove-fresh/30 outline-none" />
@@ -182,7 +182,7 @@ function FieldReportForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Button variant="outline" size="md" className="w-full !border-mangrove-deep !text-mangrove-deep">
           <Upload className="w-4 h-4" /> Simpan Draft
         </Button>
@@ -207,7 +207,7 @@ function ProfileForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="block text-xs font-semibold text-mangrove-deep mb-2 flex items-center gap-1"><User className="w-3 h-3" /> Nama Lengkap</label>
           <input type="text" defaultValue="Andi Pratama" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:border-mangrove-fresh focus:ring-1 focus:ring-mangrove-fresh/30 outline-none" />
@@ -218,7 +218,7 @@ function ProfileForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="block text-xs font-semibold text-mangrove-deep mb-2 flex items-center gap-1"><Phone className="w-3 h-3" /> Telepon</label>
           <input type="tel" defaultValue="+62 812 3456 7890" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:border-mangrove-fresh focus:ring-1 focus:ring-mangrove-fresh/30 outline-none" />
@@ -263,18 +263,18 @@ export default function IDMAPUserDashboard() {
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
 
-      <div className="ml-64">
+      <div className="ml-0 lg:ml-60">
         <DashboardTopbar placeholder="Cari..." userName="Andi" userRole="Kontributor" />
 
-        <main className="p-8">
+        <main className="p-4 lg:p-6">
           {/* Greeting */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-mangrove-deep">Halo, Andi 👋</h1>
+          <div className="mb-5">
+            <h1 className="text-xl lg:text-2xl font-bold text-mangrove-deep">Halo, Andi 👋</h1>
             <p className="text-sm text-mangrove-muted mt-1">Terima kasih telah berkontribusi untuk pesisir Indonesia!</p>
           </div>
 
           {/* Tab navigation */}
-          <div className="flex gap-2 mb-8 bg-white rounded-xl p-1.5 border border-gray-100 w-fit">
+          <div className="flex gap-1.5 mb-6 bg-white rounded-xl p-1 border border-gray-100 w-full sm:w-fit overflow-x-auto">
             {[
               { key: 'overview' as const, label: 'Ringkasan', icon: <Home className="w-4 h-4" /> },
               { key: 'contribute' as const, label: 'Donasi Baru', icon: <DollarSign className="w-4 h-4" /> },
@@ -299,19 +299,19 @@ export default function IDMAPUserDashboard() {
           {activeTab === 'overview' && (
             <>
               {/* Stat Cards */}
-              <div className="grid grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
                 <StatCard icon={<DollarSign className="w-5 h-5" />} label="Total Kontribusi" value="Rp 1.250.000" />
                 <StatCard icon={<TreePine className="w-5 h-5" />} label="Bibit yang Didukung" value="25 Pohon" />
                 <StatCard icon={<Wind className="w-5 h-5" />} label="Serapan Karbon" value="12,5 ton CO₂e" />
                 <StatCard icon={<Hash className="w-5 h-5" />} label="Peringkat Anda" value="#128" delta="Kontributor Aktif" />
               </div>
 
-              <div className="grid grid-cols-12 gap-6 mb-8">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
                 {/* Program Card */}
-                <Card className="col-span-7">
+                <Card className="col-span-1 lg:col-span-7">
                   <h3 className="font-bold text-mangrove-deep mb-5">Program yang Anda Dukung</h3>
-                  <div className="flex gap-6">
-                    <div className="w-56 h-48 bg-gradient-to-br from-mangrove-deep to-mangrove-teal rounded-xl flex-shrink-0 flex items-center justify-center relative overflow-hidden">
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="w-full sm:w-48 h-40 bg-gradient-to-br from-mangrove-deep to-mangrove-teal rounded-xl flex-shrink-0 flex items-center justify-center relative overflow-hidden">
                       <TreePine className="w-12 h-12 text-mangrove-neon/30" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                       <div className="absolute bottom-3 left-3">
@@ -348,7 +348,7 @@ export default function IDMAPUserDashboard() {
                 </Card>
 
                 {/* Impact Panel */}
-                <div className="col-span-5 space-y-6">
+                <div className="col-span-1 lg:col-span-5 space-y-4">
                   <Card>
                     <h3 className="font-bold text-mangrove-deep mb-4">Dampak Anda</h3>
                     <div className="space-y-3">
@@ -390,8 +390,8 @@ export default function IDMAPUserDashboard() {
               </div>
 
               {/* Contribution History */}
-              <div className="grid grid-cols-12 gap-6">
-                <Card className="col-span-7">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                <Card className="col-span-1 lg:col-span-7">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="font-bold text-mangrove-deep">Riwayat Kontribusi</h3>
                     <Button variant="ghost" size="sm" className="!text-mangrove-fresh">Lihat Semua</Button>
@@ -415,7 +415,7 @@ export default function IDMAPUserDashboard() {
                 </Card>
 
                 {/* Certificate */}
-                <Card className="col-span-5">
+                <Card className="col-span-1 lg:col-span-5">
                   <h3 className="font-bold text-mangrove-deep mb-4">Sertifikat Terbaru</h3>
                   <div className="border-2 border-dashed border-mangrove-fresh/30 rounded-xl p-6 text-center bg-mangrove-mint/50">
                     <div className="w-full h-36 bg-gradient-to-br from-mangrove-deep to-mangrove-teal rounded-lg flex items-center justify-center mb-4 relative overflow-hidden">
@@ -440,8 +440,8 @@ export default function IDMAPUserDashboard() {
           )}
 
           {activeTab === 'contribute' && (
-            <div className="grid grid-cols-12 gap-6">
-              <Card className="col-span-7">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+              <Card className="col-span-1 lg:col-span-7">
                 <h3 className="font-bold text-mangrove-deep text-lg mb-6 flex items-center gap-2">
                   <DollarSign className="w-5 h-5 text-mangrove-fresh" /> Form Donasi Baru
                 </h3>
@@ -492,8 +492,8 @@ export default function IDMAPUserDashboard() {
           )}
 
           {activeTab === 'report' && (
-            <div className="grid grid-cols-12 gap-6">
-              <Card className="col-span-7">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+              <Card className="col-span-1 lg:col-span-7">
                 <h3 className="font-bold text-mangrove-deep text-lg mb-6 flex items-center gap-2">
                   <TreePine className="w-5 h-5 text-mangrove-fresh" /> Laporan Lapangan Mangrove
                 </h3>
@@ -541,8 +541,8 @@ export default function IDMAPUserDashboard() {
           )}
 
           {activeTab === 'profile' && (
-            <div className="grid grid-cols-12 gap-6">
-              <Card className="col-span-7">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+              <Card className="col-span-1 lg:col-span-7">
                 <h3 className="font-bold text-mangrove-deep text-lg mb-6 flex items-center gap-2">
                   <User className="w-5 h-5 text-mangrove-fresh" /> Pengaturan Profil
                 </h3>
