@@ -1,5 +1,6 @@
 import { type ReactNode, useState } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { useClerk } from '@clerk/clerk-react';
 import { LogOut, Menu, X } from 'lucide-react';
 import Logo from './Logo';
 
@@ -23,9 +24,11 @@ const subtitles = {
 export default function DashboardSidebar({ variant, menuItems }: DashboardSidebarProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { signOut } = useClerk();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try { await signOut(); } catch { /* Clerk not configured */ }
     navigate('/');
   };
 

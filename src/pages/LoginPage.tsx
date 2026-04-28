@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, Heart, ClipboardCheck, Building2, Shield, Check } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Heart, ClipboardCheck, Building2, Shield, Check, Loader2 } from 'lucide-react';
+import { useSignIn, useAuth } from '@clerk/clerk-react';
 import { useMutation } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import Button from '../components/ui/Button';
@@ -14,29 +15,23 @@ const loginRoles = [
 
 type RoleId = 'kontributor' | 'verifikator' | 'csr_partner' | 'admin';
 
-const defaultCredentials: Record<string, { email: string; password: string }> = {
-  admin: { email: 'admin@idmap.id', password: 'admin123' },
-  verifikator: { email: 'verifikator@idmap.id', password: 'verifikator123' },
-};
-
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedRole, setSelectedRole] = useState<RoleId>('kontributor');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { signIn, isLoaded: signInLoaded } = useSignIn();
+  const { isSignedIn } = useAuth();
   const loginUser = useMutation(api.users.login);
 
-  const handleRoleSelect = (roleId: RoleId) => {
-    setSelectedRole(roleId);
-    setError('');
-    const creds = defaultCredentials[roleId];
-    if (creds) {
-      setEmail(creds.email);
-      setPassword(creds.password);
-    }
-  };
+  if (isSignedIn) {
+    const role = loginRoles.find((r) => r.id === selectedRole);
+    navigate(role?.route || '/user', { replace: true });
+    return null;
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,29 +42,44 @@ export default function LoginPage() {
       return;
     }
 
-    const creds = defaultCredentials[selectedRole];
-    if (creds && (email !== creds.email || password !== creds.password)) {
-      setError(`Kredensial ${selectedRole === 'admin' ? 'Admin' : 'Verifikator'} salah`);
-      return;
-    }
-
+    setLoading(true);
     try {
-      await loginUser({ email, role: selectedRole, authProvider: 'email' });
-    } catch {
-      // Convex not connected — continue with local navigation
+      if (signInLoaded && signIn) {
+        const result = await signIn.create({ identifier: email, password });
+        if (result.status === 'complete') {
+          try { await loginUser({ email, role: selectedRole, authProvider: 'email' }); } catch { /* Convex optional */ }
+          const role = loginRoles.find((r) => r.id === selectedRole);
+          window.location.hash = `#${role?.route || '/user'}`;
+          window.location.reload();
+          return;
+        }
+      }
+    } catch (err: unknown) {
+      const clerkErr = err as { errors?: Array<{ message?: string }> };
+      setError(clerkErr.errors?.[0]?.message || 'Login gagal. Periksa email dan password.');
+    } finally {
+      setLoading(false);
     }
-    const role = loginRoles.find((r) => r.id === selectedRole);
-    navigate(role?.route || '/user');
   };
 
   const handleGmailLogin = async () => {
-    try {
-      await loginUser({ email: email || 'user@gmail.com', role: selectedRole, authProvider: 'google' });
-    } catch {
-      // Convex not connected — continue with local navigation
+    setError('');
+    if (!signInLoaded || !signIn) {
+      setError('Clerk belum siap. Coba lagi.');
+      return;
     }
-    const role = loginRoles.find((r) => r.id === selectedRole);
-    navigate(role?.route || '/user');
+    try {
+      const role = loginRoles.find((r) => r.id === selectedRole);
+      const redirectRoute = role?.route || '/user';
+      await signIn.authenticateWithRedirect({
+        strategy: 'oauth_google',
+        redirectUrl: '/#/sso-callback',
+        redirectUrlComplete: `/#${redirectRoute}`,
+      });
+    } catch (err: unknown) {
+      const clerkErr = err as { errors?: Array<{ message?: string }> };
+      setError(clerkErr.errors?.[0]?.message || 'Google login gagal.');
+    }
   };
 
   return (
@@ -81,7 +91,6 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
-          {/* Role selection - checklist style */}
           <div className="mb-6">
             <label className="block text-xs font-semibold text-mangrove-deep mb-3">Pilih Peran Anda</label>
             <div className="grid grid-cols-2 gap-2">
@@ -89,7 +98,7 @@ export default function LoginPage() {
                 <button
                   key={role.id}
                   type="button"
-                  onClick={() => handleRoleSelect(role.id)}
+                  onClick={() => { setSelectedRole(role.id); setError(''); }}
                   className={`flex items-center gap-2 p-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
                     selectedRole === role.id
                       ? 'border-mangrove-fresh bg-mangrove-mint/50'
@@ -159,8 +168,8 @@ export default function LoginPage() {
               </div>
             )}
 
-            <Button type="submit" variant="neon" size="md" className="w-full">
-              Masuk
+            <Button type="submit" variant="neon" size="md" className="w-full" disabled={loading}>
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Masuk'}
             </Button>
           </form>
 

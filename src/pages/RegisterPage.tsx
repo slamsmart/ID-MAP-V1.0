@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Eye, EyeOff, Heart, Building2, Check } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, Heart, Building2, Check, Loader2 } from 'lucide-react';
+import { useSignUp, useAuth } from '@clerk/clerk-react';
 import { useMutation } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import Button from '../components/ui/Button';
@@ -10,35 +11,151 @@ const roles = [
   { id: 'csr_partner' as const, label: 'CSR Partner', desc: 'Donasi korporat, laporan dampak', icon: <Building2 className="w-5 h-5" />, route: '/user' },
 ];
 
+type RegisterRoleId = 'kontributor' | 'csr_partner';
+
 export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState<'kontributor' | 'csr_partner'>('kontributor');
+  const [selectedRole, setSelectedRole] = useState<RegisterRoleId>('kontributor');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [pendingVerification, setPendingVerification] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
   const navigate = useNavigate();
+  const { signUp, isLoaded: signUpLoaded } = useSignUp();
+  const { isSignedIn } = useAuth();
   const registerUser = useMutation(api.users.register);
+
+  if (isSignedIn) {
+    const role = roles.find((r) => r.id === selectedRole);
+    navigate(role?.route || '/user', { replace: true });
+    return null;
+  }
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await registerUser({ name, email, role: selectedRole, authProvider: 'email' });
-    } catch {
-      // Convex not connected — continue with local navigation
+    setError('');
+
+    if (!name || !email || !password) {
+      setError('Semua kolom wajib diisi');
+      return;
     }
-    const role = roles.find((r) => r.id === selectedRole);
-    navigate(role?.route || '/user');
+
+    setLoading(true);
+    try {
+      if (signUpLoaded && signUp) {
+        const result = await signUp.create({
+          emailAddress: email,
+          password,
+          firstName: name.split(' ')[0],
+          lastName: name.split(' ').slice(1).join(' ') || undefined,
+          unsafeMetadata: { role: selectedRole },
+        });
+
+        if (result.status === 'complete') {
+          try { await registerUser({ name, email, role: selectedRole, authProvider: 'email' }); } catch { /* Convex optional */ }
+          const role = roles.find((r) => r.id === selectedRole);
+          window.location.hash = `#${role?.route || '/user'}`;
+          window.location.reload();
+          return;
+        }
+
+        if (result.status === 'missing_requirements') {
+          await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+          setPendingVerification(true);
+        }
+      }
+    } catch (err: unknown) {
+      const clerkErr = err as { errors?: Array<{ message?: string }> };
+      setError(clerkErr.errors?.[0]?.message || 'Pendaftaran gagal.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerify = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      if (signUpLoaded && signUp) {
+        const result = await signUp.attemptEmailAddressVerification({ code: verificationCode });
+        if (result.status === 'complete') {
+          try { await registerUser({ name, email, role: selectedRole, authProvider: 'email' }); } catch { /* Convex optional */ }
+          const role = roles.find((r) => r.id === selectedRole);
+          window.location.hash = `#${role?.route || '/user'}`;
+          window.location.reload();
+          return;
+        }
+      }
+    } catch (err: unknown) {
+      const clerkErr = err as { errors?: Array<{ message?: string }> };
+      setError(clerkErr.errors?.[0]?.message || 'Kode verifikasi salah.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGmailRegister = async () => {
-    try {
-      await registerUser({ name: name || 'Google User', email: email || 'user@gmail.com', role: selectedRole, authProvider: 'google' });
-    } catch {
-      // Convex not connected — continue with local navigation
+    setError('');
+    if (!signUpLoaded || !signUp) {
+      setError('Clerk belum siap. Coba lagi.');
+      return;
     }
-    const role = roles.find((r) => r.id === selectedRole);
-    navigate(role?.route || '/user');
+    try {
+      const role = roles.find((r) => r.id === selectedRole);
+      const redirectRoute = role?.route || '/user';
+      await signUp.authenticateWithRedirect({
+        strategy: 'oauth_google',
+        redirectUrl: '/#/sso-callback',
+        redirectUrlComplete: `/#${redirectRoute}`,
+        unsafeMetadata: { role: selectedRole },
+      });
+    } catch (err: unknown) {
+      const clerkErr = err as { errors?: Array<{ message?: string }> };
+      setError(clerkErr.errors?.[0]?.message || 'Google sign-up gagal.');
+    }
   };
+
+  if (pendingVerification) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-mangrove-deep to-mangrove-teal flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-8">
+            <Link to="/" className="text-3xl font-extrabold text-mangrove-neon tracking-tight">ID-MAP</Link>
+            <p className="text-gray-400 text-sm mt-2">Verifikasi email Anda</p>
+          </div>
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <p className="text-sm text-gray-600 mb-4 text-center">
+              Kami mengirim kode verifikasi ke <span className="font-semibold">{email}</span>
+            </p>
+            <form onSubmit={handleVerify} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-mangrove-deep mb-2">Kode Verifikasi</label>
+                <input
+                  type="text"
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                  placeholder="Masukkan kode 6 digit"
+                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-center tracking-widest focus:outline-none focus:ring-2 focus:ring-mangrove-fresh/30 focus:border-mangrove-fresh"
+                />
+              </div>
+              {error && (
+                <div className="p-2.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-600 text-center">
+                  {error}
+                </div>
+              )}
+              <Button type="submit" variant="neon" size="md" className="w-full" disabled={loading}>
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Verifikasi'}
+              </Button>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-mangrove-deep to-mangrove-teal flex items-center justify-center px-4 py-12">
@@ -49,7 +166,6 @@ export default function RegisterPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
-          {/* Role selection - checklist style */}
           <div className="mb-6">
             <label className="block text-xs font-semibold text-mangrove-deep mb-3">Pilih Peran Anda</label>
             <div className="space-y-2">
@@ -57,7 +173,7 @@ export default function RegisterPage() {
                 <button
                   key={role.id}
                   type="button"
-                  onClick={() => setSelectedRole(role.id)}
+                  onClick={() => { setSelectedRole(role.id); setError(''); }}
                   className={`w-full flex items-center gap-3 p-3.5 rounded-xl border-2 text-left transition-all cursor-pointer ${
                     selectedRole === role.id
                       ? 'border-mangrove-fresh bg-mangrove-mint/50'
@@ -135,8 +251,14 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <Button type="submit" variant="neon" size="md" className="w-full">
-              Daftar Sekarang
+            {error && (
+              <div className="p-2.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-600 text-center">
+                {error}
+              </div>
+            )}
+
+            <Button type="submit" variant="neon" size="md" className="w-full" disabled={loading}>
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Daftar Sekarang'}
             </Button>
           </form>
 
