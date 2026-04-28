@@ -74,7 +74,7 @@ export default function IDMAPLandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/hero-mangrove.png')" }}
@@ -93,24 +93,24 @@ export default function IDMAPLandingPage() {
 
         <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-20 grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-mangrove-neon text-sm font-semibold tracking-wider uppercase mb-4">
+            <p className="text-mangrove-neon text-xs font-semibold tracking-wider uppercase mb-3">
               Integrated Digital Mangrove & Coastal Platform
             </p>
-            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight mb-6">
+            <h1 className="text-2xl lg:text-3xl xl:text-4xl font-extrabold leading-tight mb-4">
               Infrastruktur Digital untuk Pembiayaan & Monitoring Ekosistem Pesisir Indonesia
             </h1>
-            <p className="text-gray-300 text-lg mb-8 max-w-lg">
+            <p className="text-gray-300 text-sm mb-6 max-w-lg leading-relaxed">
               ID-MAP mengintegrasikan data, pembiayaan berbasis QRIS, dan monitoring dampak lingkungan secara real-time.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3">
               <Link to="/peta-mangrove">
-                <Button variant="neon" size="lg">
-                  <MapPin className="w-5 h-5" /> Jelajahi Peta
+                <Button variant="neon" size="md">
+                  <MapPin className="w-4 h-4" /> Jelajahi Peta
                 </Button>
               </Link>
               <Link to="/program">
-                <Button variant="outline" size="lg">
-                  <Sprout className="w-5 h-5" /> Dukung Sekarang
+                <Button variant="outline" size="md">
+                  <Sprout className="w-4 h-4" /> Dukung Sekarang
                 </Button>
               </Link>
             </div>
@@ -120,27 +120,27 @@ export default function IDMAPLandingPage() {
           <div className="flex justify-center lg:justify-end">
             <div className="relative">
               <div className="absolute -inset-4 bg-mangrove-neon/10 rounded-3xl blur-2xl" />
-              <Card glass className="relative w-80 p-6">
-                <p className="text-center text-sm font-bold text-mangrove-neon mb-1">QRIS Engine</p>
-                <p className="text-center text-[10px] text-gray-400 mb-5">Sistem Pembayaran Digital Terintegrasi</p>
+              <Card glass className="relative w-72 p-5">
+                <p className="text-center text-xs font-bold text-mangrove-neon mb-0.5">QRIS Engine</p>
+                <p className="text-center text-[9px] text-gray-400 mb-4">Sistem Pembayaran Digital Terintegrasi</p>
 
                 {/* Flow visualization */}
                 <div className="flex flex-col items-center gap-1">
                   {[
-                    { icon: <Users className="w-5 h-5" />, label: 'User', desc: 'Kontributor & Donor' },
-                    { icon: <QrCode className="w-5 h-5" />, label: 'QRIS', desc: 'Pembayaran Digital' },
-                    { icon: <Sprout className="w-5 h-5" />, label: 'Program', desc: 'Restorasi Mangrove' },
-                    { icon: <TrendingUp className="w-5 h-5" />, label: 'Dampak', desc: 'Lingkungan & Sosial' },
-                    { icon: <Globe className="w-5 h-5" />, label: 'Data', desc: 'Monitoring Real-time' },
+                    { icon: <Users className="w-4 h-4" />, label: 'User', desc: 'Kontributor & Donor' },
+                    { icon: <QrCode className="w-4 h-4" />, label: 'QRIS', desc: 'Pembayaran Digital' },
+                    { icon: <Sprout className="w-4 h-4" />, label: 'Program', desc: 'Restorasi Mangrove' },
+                    { icon: <TrendingUp className="w-4 h-4" />, label: 'Dampak', desc: 'Lingkungan & Sosial' },
+                    { icon: <Globe className="w-4 h-4" />, label: 'Data', desc: 'Monitoring Real-time' },
                   ].map((step, i) => (
                     <div key={step.label}>
-                      <div className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-2.5 w-64 border border-white/10 hover:border-mangrove-neon/30 transition-colors">
-                        <div className="w-9 h-9 rounded-lg bg-mangrove-neon/15 flex items-center justify-center text-mangrove-neon flex-shrink-0">
+                      <div className="flex items-center gap-2.5 bg-white/5 rounded-lg px-3 py-2 w-56 border border-white/8 hover:border-mangrove-neon/25 transition-colors">
+                        <div className="w-7 h-7 rounded-md bg-mangrove-neon/12 flex items-center justify-center text-mangrove-neon flex-shrink-0">
                           {step.icon}
                         </div>
                         <div>
-                          <p className="text-sm font-bold text-white">{step.label}</p>
-                          <p className="text-[10px] text-gray-400">{step.desc}</p>
+                          <p className="text-xs font-bold text-white">{step.label}</p>
+                          <p className="text-[9px] text-gray-400">{step.desc}</p>
                         </div>
                       </div>
                       {i < 4 && (
@@ -153,13 +153,13 @@ export default function IDMAPLandingPage() {
                 </div>
 
                 {/* Bank Indonesia badge */}
-                <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-center gap-2">
-                  <div className="w-7 h-7 bg-white rounded-full flex items-center justify-center">
-                    <span className="text-[8px] font-extrabold text-mangrove-deep">BI</span>
+                <div className="mt-4 pt-3 border-t border-white/8 flex items-center justify-center gap-2">
+                  <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                    <span className="text-[7px] font-extrabold text-mangrove-deep">BI</span>
                   </div>
                   <div>
-                    <p className="text-[10px] text-gray-400">Didukung oleh</p>
-                    <p className="text-xs font-bold text-white">Bank Indonesia</p>
+                    <p className="text-[9px] text-gray-400">Didukung oleh</p>
+                    <p className="text-[11px] font-bold text-white">Bank Indonesia</p>
                   </div>
                 </div>
               </Card>
@@ -169,12 +169,12 @@ export default function IDMAPLandingPage() {
       </section>
 
       {/* Live Stats */}
-      <section className="relative -mt-12 z-10 max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard glass icon={<Users className="w-5 h-5" />} label="Pengguna Terdaftar" value="12.456" />
-          <StatCard glass icon={<Sprout className="w-5 h-5" />} label="Bibit Mangrove Ditanam" value="1.285.760" />
-          <StatCard glass icon={<Wind className="w-5 h-5" />} label="Serapan Karbon (CO₂e)" value="823.456 ton" />
-          <StatCard glass icon={<DollarSign className="w-5 h-5" />} label="Konversi Estimasi Nilai SDA" value="Rp 98,65 M" />
+      <section className="relative -mt-10 z-10 max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <StatCard glass icon={<Users className="w-4 h-4" />} label="Pengguna Terdaftar" value="12.456" />
+          <StatCard glass icon={<Sprout className="w-4 h-4" />} label="Bibit Mangrove Ditanam" value="1.285.760" />
+          <StatCard glass icon={<Wind className="w-4 h-4" />} label="Serapan Karbon (CO₂e)" value="823.456 ton" />
+          <StatCard glass icon={<DollarSign className="w-4 h-4" />} label="Konversi Estimasi Nilai SDA" value="Rp 98,65 M" />
         </div>
       </section>
 
@@ -184,13 +184,13 @@ export default function IDMAPLandingPage() {
       </div>
 
       {/* Contribution Steps */}
-      <section className="bg-mangrove-mint py-24">
+      <section className="bg-mangrove-mint py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-mangrove-deep text-center mb-4">Cara Berkontribusi</h2>
-          <div className="grid md:grid-cols-4 gap-8 mt-12">
+          <h2 className="text-2xl font-bold text-mangrove-deep text-center mb-3">Cara Berkontribusi</h2>
+          <div className="grid md:grid-cols-4 gap-6 mt-10">
             {steps.map((step) => (
               <div key={step.title} className="text-center">
-                <div className="w-16 h-16 bg-mangrove-deep rounded-2xl flex items-center justify-center mx-auto mb-4 text-mangrove-neon">
+                <div className="w-14 h-14 bg-mangrove-deep rounded-xl flex items-center justify-center mx-auto mb-3 text-mangrove-neon">
                   {step.icon}
                 </div>
                 <h3 className="font-bold text-mangrove-deep mb-2">{step.title}</h3>
@@ -202,14 +202,14 @@ export default function IDMAPLandingPage() {
       </section>
 
       {/* Impact */}
-      <section className="bg-white py-24">
+      <section className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-mangrove-deep text-center mb-4">Dampak Nyata untuk Bumi Kita</h2>
-          <div className="grid md:grid-cols-4 gap-6 mt-12">
+          <h2 className="text-2xl font-bold text-mangrove-deep text-center mb-3">Dampak Nyata untuk Bumi Kita</h2>
+          <div className="grid md:grid-cols-4 gap-5 mt-10">
             {impacts.map((imp) => (
               <Card key={imp.label} className="text-center">
                 <div className="text-mangrove-fresh mb-3 flex justify-center">{imp.icon}</div>
-                <p className="text-3xl font-extrabold text-mangrove-deep">{imp.value}</p>
+                <p className="text-2xl font-extrabold text-mangrove-deep">{imp.value}</p>
                 <p className="text-sm text-mangrove-muted mt-1">{imp.label}</p>
               </Card>
             ))}
