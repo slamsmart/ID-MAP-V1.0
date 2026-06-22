@@ -162,16 +162,16 @@ export default function SertifikatPage() {
   return (
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
-      <div className="ml-64">
+      <div className="ml-0 lg:ml-56">
         <DashboardTopbar placeholder="Cari sertifikat..." userName="Andi" userRole="Kontributor" />
-        <main className="p-8">
+        <main className="p-4 lg:p-6">
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-mangrove-deep">Sertifikat</h1>
             <p className="text-sm text-mangrove-muted mt-1">Bukti kontribusi Anda untuk restorasi mangrove Indonesia.</p>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
             <StatCard icon={<Award className="w-5 h-5" />} label="Total Sertifikat" value="4" delta="3 diterbitkan" />
             <StatCard icon={<TreePine className="w-5 h-5" />} label="Total Bibit" value="25 pohon" delta="tercatat" />
             <StatCard icon={<Calendar className="w-5 h-5" />} label="Terakhir Diterbitkan" value="10 Mei 2024" delta="CERT-2024-001" />
@@ -226,7 +226,7 @@ export default function SertifikatPage() {
           </Card>
 
           {/* All certificates */}
-          <h3 className="font-bold text-mangrove-deep mb-4">Semua Sertifikat</h3>
+          <h3 className="text-sm font-semibold text-mangrove-deep mb-4">Semua Sertifikat</h3>
           <div className="grid grid-cols-2 gap-4">
             {certificates.map((cert) => (
               <Card key={cert.id} className="flex items-start gap-4">

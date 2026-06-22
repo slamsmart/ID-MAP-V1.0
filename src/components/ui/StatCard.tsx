@@ -18,14 +18,14 @@ export default function StatCard({ icon, label, value, delta, glass, dark, class
       : 'bg-white border-gray-100 text-gray-900';
 
   return (
-    <div className={`rounded-2xl border p-5 shadow-sm ${base} ${className}`}>
-      <div className="flex items-start justify-between">
-        <div>
-          {icon && <div className="mb-2 text-mangrove-fresh">{icon}</div>}
-          <p className={`text-sm ${dark || glass ? 'text-gray-300' : 'text-mangrove-muted'}`}>{label}</p>
-          <p className="text-2xl font-bold mt-1">{value}</p>
+    <div className={`rounded-xl border p-4 shadow-sm hover:shadow-md transition-shadow ${base} ${className}`}>
+      <div className="flex items-center gap-3">
+        {icon && <div className="w-9 h-9 rounded-lg bg-mangrove-fresh/10 flex items-center justify-center text-mangrove-fresh flex-shrink-0">{icon}</div>}
+        <div className="min-w-0">
+          <p className={`text-xs ${dark || glass ? 'text-gray-300' : 'text-mangrove-muted'}`}>{label}</p>
+          <p className="text-lg font-bold mt-0.5 truncate">{value}</p>
           {delta && (
-            <span className="text-xs font-medium text-mangrove-fresh mt-1 inline-block">
+            <span className="text-[10px] font-medium text-mangrove-fresh inline-block">
               {delta}
             </span>
           )}

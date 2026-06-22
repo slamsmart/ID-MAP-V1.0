@@ -9,11 +9,11 @@ interface TableProps {
 export default function Table({ headers, children, className = '' }: TableProps) {
   return (
     <div className={`overflow-x-auto ${className}`}>
-      <table className="w-full text-sm">
+      <table className="w-full text-xs">
         <thead>
-          <tr className="border-b border-gray-100">
+          <tr className="border-b border-gray-100/80">
             {headers.map((h) => (
-              <th key={h} className="text-left py-3 px-4 text-xs font-semibold text-mangrove-muted uppercase tracking-wider">
+              <th key={h} className="text-left py-2.5 px-3 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
                 {h}
               </th>
             ))}

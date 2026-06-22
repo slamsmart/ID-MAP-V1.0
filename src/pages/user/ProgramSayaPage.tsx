@@ -71,16 +71,16 @@ export default function ProgramSayaPage() {
   return (
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
-      <div className="ml-64">
+      <div className="ml-0 lg:ml-56">
         <DashboardTopbar placeholder="Cari program..." userName="Andi" userRole="Kontributor" />
-        <main className="p-8">
+        <main className="p-4 lg:p-6">
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-mangrove-deep">Program Saya</h1>
             <p className="text-sm text-mangrove-muted mt-1">Program restorasi yang Anda dukung secara aktif.</p>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
             <StatCard icon={<TreePine className="w-5 h-5" />} label="Program Didukung" value="3" delta="+1 bulan ini" />
             <StatCard icon={<Leaf className="w-5 h-5" />} label="Total Bibit Anda" value="25" delta="+5 bulan ini" />
             <StatCard icon={<DollarSign className="w-5 h-5" />} label="Total Kontribusi" value="Rp 1.250.000" delta="+Rp 250K" />
@@ -124,7 +124,7 @@ export default function ProgramSayaPage() {
                       <ProgressBar value={p.progress} />
                     </div>
 
-                    <div className="grid grid-cols-5 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                       <div className="bg-mangrove-mint rounded-xl p-3 text-center">
                         <p className="text-xs text-mangrove-muted">Kontribusi Anda</p>
                         <p className="text-sm font-bold text-mangrove-deep">{p.kontribusi}</p>
@@ -154,7 +154,7 @@ export default function ProgramSayaPage() {
 
           {/* Timeline */}
           <Card>
-            <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-mangrove-fresh" /> Riwayat Aktivitas Program
             </h3>
             <div className="space-y-4">

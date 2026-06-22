@@ -69,9 +69,9 @@ export default function PengaturanPage() {
   return (
     <div className="min-h-screen bg-mangrove-mint">
       <DashboardSidebar variant="user" menuItems={menuItems} />
-      <div className="ml-64">
+      <div className="ml-0 lg:ml-56">
         <DashboardTopbar placeholder="Cari pengaturan..." userName="Andi" userRole="Kontributor" />
-        <main className="p-8">
+        <main className="p-4 lg:p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-bold text-mangrove-deep">Pengaturan</h1>
@@ -85,7 +85,7 @@ export default function PengaturanPage() {
             )}
           </div>
 
-          <div className="grid grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
             {/* Left sidebar nav */}
             <div className="col-span-3 space-y-1">
               {sections.map((s) => (
@@ -130,12 +130,12 @@ export default function PengaturanPage() {
             </div>
 
             {/* Right content */}
-            <div className="col-span-9">
+            <div className="col-span-1 lg:col-span-9">
               {/* Profile */}
               {activeSection === 'profil' && (
                 <div className="space-y-6">
                   <Card>
-                    <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
                       <User className="w-5 h-5 text-mangrove-fresh" /> Informasi Profil
                     </h3>
 
@@ -199,7 +199,7 @@ export default function PengaturanPage() {
                   </Card>
 
                   <Card>
-                    <h3 className="font-bold text-mangrove-deep mb-3 flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-mangrove-deep mb-3 flex items-center gap-2">
                       <Shield className="w-5 h-5 text-mangrove-fresh" /> Akun
                     </h3>
                     <div className="flex items-center justify-between py-3 border-b border-gray-100">
@@ -230,7 +230,7 @@ export default function PengaturanPage() {
               {activeSection === 'keamanan' && (
                 <div className="space-y-6">
                   <Card>
-                    <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
                       <Lock className="w-5 h-5 text-mangrove-fresh" /> Ubah Kata Sandi
                     </h3>
                     <div className="space-y-4 max-w-md">
@@ -265,7 +265,7 @@ export default function PengaturanPage() {
                   </Card>
 
                   <Card>
-                    <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
                       <Shield className="w-5 h-5 text-mangrove-fresh" /> Autentikasi Dua Faktor
                     </h3>
                     <div className="flex items-center justify-between">
@@ -278,7 +278,7 @@ export default function PengaturanPage() {
                   </Card>
 
                   <Card>
-                    <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
                       <Settings className="w-5 h-5 text-mangrove-fresh" /> Sesi Aktif
                     </h3>
                     <div className="flex items-center justify-between py-3 border-b border-gray-100">
@@ -302,7 +302,7 @@ export default function PengaturanPage() {
               {/* Notification preferences */}
               {activeSection === 'notif' && (
                 <Card>
-                  <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
                     <Bell className="w-5 h-5 text-mangrove-fresh" /> Preferensi Notifikasi
                   </h3>
                   <div className="space-y-1">
@@ -325,7 +325,7 @@ export default function PengaturanPage() {
               {activeSection === 'tampilan' && (
                 <div className="space-y-6">
                   <Card>
-                    <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
                       <Palette className="w-5 h-5 text-mangrove-fresh" /> Tampilan
                     </h3>
                     <div className="space-y-4">
@@ -354,7 +354,7 @@ export default function PengaturanPage() {
                   </Card>
 
                   <Card>
-                    <h3 className="font-bold text-mangrove-deep mb-4 flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-mangrove-deep mb-4 flex items-center gap-2">
                       <Globe className="w-5 h-5 text-mangrove-fresh" /> Zona Waktu & Regional
                     </h3>
                     <div className="space-y-4">
